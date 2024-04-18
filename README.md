@@ -25,7 +25,7 @@ To install and run the code on your local machine, follow these steps:
     After cloning the repository, navigate into the project directory:
 
     ```bash
-    cd HumanChoicePrediction
+    cd NLPProject
     ```
 
     Then, use the following command to create a conda environment from the requirements.yml file provided in the project:
