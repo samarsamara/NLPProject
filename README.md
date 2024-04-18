@@ -18,7 +18,7 @@ To install and run the code on your local machine, follow these steps:
 
    First, clone the repository to your local machine using Git. Open a terminal and run the following command:
    ```bash
-   git clone https://github.com/eilamshapira/HumanChoicePrediction
+[   git clone https://github.com/samarsamara/NLPProject
     ```
 2. **Create and activate the conda environment**
 
