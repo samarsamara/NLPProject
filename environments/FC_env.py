@@ -28,7 +28,7 @@ class FullyConnectedNN(nn.Module):
         x.reshape(shape[:-1] + (2,))
         return {"output": x}
 
-
+print('-----')
 class FC_env(environment.Environment):
     def init_model_arc(self, config):
         input_dim = config["REVIEW_DIM"] + STRATEGY_DIM  # depends on the size of your input
