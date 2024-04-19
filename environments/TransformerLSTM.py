@@ -42,9 +42,7 @@ class TransformerLSTM(nn.Module):
             game_vector = vectors["game_vector"]
             transformer_input = self.fc(x)
             transformer_output = self.transformer(transformer_input)
-            lstm_input = self.input_fc(input_vec)
-            # lstm_input = lstm_input.reshape(-1, self.hidden_dim)
-            # output = self.output_fc(lstm_input)
+            lstm_input = self.input_fc(transformer_output)
             lstm_shape = lstm_input.shape
             shape = user_vector.shape
             assert game_vector.shape == shape
@@ -55,11 +53,16 @@ class TransformerLSTM(nn.Module):
             lstm_output, (game_vector, user_vector) = self.lstm(lstm_input.contiguous(),
                                                                      (game_vector.contiguous(),
                                                                       user_vector.contiguous()))
+            user_vector = user_vector.reshape(shape)
+            game_vector = game_vector.reshape(shape)
             
             lstm_output = self.lstm(transformer_output)
-            output = self.output_fc()
-            
-            return {"output": output}
+            output = self.output_fc(lstm_output)
+            if self.training:
+                return {"output": output, "game_vector": game_vector, "user_vector": user_vector}
+            else:
+                return {"output": output, "game_vector": game_vector.detach(), "user_vector": user_vector.detach()}
+             
             
 
       
