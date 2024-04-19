@@ -177,7 +177,9 @@ class Environment:
                         with torch.no_grad():
                             model_output = self.model(model_vectors)
                     output = model_output["output"]
+                    print(output.shape)
                     mask = (batch["action_taken"] != -100).flatten()
+                    print(mask.shape)
                     relevant_predictions = output.reshape(batch_size * DATA_ROUNDS_PER_GAME, -1)[mask]
                     relevant_ground_truth = batch["action_taken"].flatten()[mask]
                     relevant_weight = batch["weight"][batch["is_sample"]]
