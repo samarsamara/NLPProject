@@ -75,8 +75,8 @@ class LSTMTransformer(nn.Module):
                                                                  (game_vector.contiguous(),
                                                                   user_vector.contiguous()))
 
-        user_vector = user_vector.reshape(shape)
-        game_vector = game_vector.reshape(shape)
+        # user_vector = user_vector.reshape(shape)
+        # game_vector = game_vector.reshape(shape)
 
         # Concatenation for Transformer input
         combined_input = torch.cat([lstm_output, game_vector, user_vector], dim=-1)
