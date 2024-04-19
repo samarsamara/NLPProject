@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 class LSTMTransformer(nn.Module):
-    def __init__(self,config):
+    def __init__(self,config,logsoftmax = True):
         super().__init__()
         nhead = config["transformer_nheads"]
         input_dim = config["input_dim"]
@@ -10,7 +10,6 @@ class LSTMTransformer(nn.Module):
         nhead = config["transformer_nheads"]
         hidden_dim = config["hidden_dim"]
         output_dim = config["output_dim"]
-        logsfotmax = config["logsfotmax"]
         n_layers = config["layers"]
         self.input_fc = nn.Sequential(
             nn.Linear(input_dim, input_dim * 2),
