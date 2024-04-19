@@ -1,7 +1,7 @@
 import utils
 import environments
 from environments.LSTMTransformer import LSTMTransformer_env
-# from environments.TransformerLSTM import TransformerLSTM_env
+from environments.TransformerLSTM import TransformerLSTM_env
 from consts import *
 from utils.functions import *
 import wandb
@@ -116,4 +116,4 @@ elif config["architecture"] == "transformer":
 elif config["architecture"] == "LSTMTransformer":
     env_model = LSTMTransformer_env(env_name, config=config)
 elif config["architecture"] == "TransformerLSTM":
-    env_model = environments.TransformerLSTM.TransformerLSTM_env(env_name, config=config)
+    env_model = TransformerLSTM_env(env_name, config=config)
