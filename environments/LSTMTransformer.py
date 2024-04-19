@@ -60,7 +60,8 @@ class LSTMTransformer(nn.Module):
     def init_user(self, batch_size=1):
         return torch.stack([self.user_vectors.init_user] * batch_size, dim=0)
 
-    def forward(self, input_vec, game_vector, user_vector):
+    def forward(self, vectors,**kwargs):
+        input_vec, game_vector, user_vector = (vectors['x'],vectors['game_vector'],vectors['user_vector'])
         lstm_input = self.input_fc(input_vec)
 
         lstm_shape = lstm_input.shape
