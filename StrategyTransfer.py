@@ -109,5 +109,5 @@ if config["architecture"] == "LSTM":
     env_model = environments.LSTM_env.LSTM_env(env_name, config=config)
 elif config["architecture"] == "transformer":
     env_model = environments.transformer_env.transformer_env(env_name, config=config)
-elif config["architectrue"] == "LSTMTransformer":
+elif config["architecture"] == "LSTMTransformer":
     env_model = environments.LSTMTransformer.LSTMTransformer_env(env_name, config=config)
