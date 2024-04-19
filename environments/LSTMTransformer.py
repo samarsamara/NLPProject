@@ -48,9 +48,9 @@ class LSTMTransformer(nn.Module):
 
         # Output layer remains the same, assuming only hidden_dim is used for prediction
         self.output_fc = nn.Sequential(
-            nn.Linear(hidden_dim , hidden_dim),  # Adjusted the input here to match Transformer output
+            nn.Linear(hidden_dim , hidden_dim//2),  # Adjusted the input here to match Transformer output
             nn.ReLU(),
-            nn.Linear(hidden_dim, output_dim),
+            nn.Linear(hidden_dim//2, output_dim),
             nn.LogSoftmax(dim=-1) if logsoftmax else nn.Identity()
         ).double()
         
