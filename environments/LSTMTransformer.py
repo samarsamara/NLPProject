@@ -79,7 +79,7 @@ class LSTMTransformer(nn.Module):
         game_vector = game_vector.reshape(shape)
 
         # Concatenation for Transformer input
-        combined_input = torch.cat([lstm_out, game_vector, user_vector], dim=-1)
+        combined_input = torch.cat([lstm_output, game_vector, user_vector], dim=-1)
         transformer_out = self.transformer_encoder(combined_input)
         output = self.output_fc(transformer_out)
         return {"output": output}
