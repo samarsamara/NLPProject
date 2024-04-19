@@ -72,7 +72,7 @@ class TransformerLSTM(nn.Module):
 
 class TransformerLSTM_env(environment.Environment):
     def init_model_arc(self, config):
-        self.model = TransformerLSTM_env(config=config).double()
+        self.model = TransformerLSTM(config=config).double()
 
     def predict_proba(self, data, update_vectors: bool, vectors_in_input=False):
         if vectors_in_input:
