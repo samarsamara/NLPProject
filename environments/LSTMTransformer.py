@@ -36,7 +36,7 @@ class LSTMTransformer(nn.Module):
 
         # Adjusting Transformer's d_model to accommodate concatenated inputs
         self.transformer_layer = nn.TransformerEncoderLayer(
-            d_model=hidden_dim * 3,  # Adjusted to triple the hidden_dim to match concatenated inputs
+            d_model=hidden_dim,  # Adjusted to triple the hidden_dim to match concatenated inputs
             nhead=nhead,  # Choose a number of heads that divides evenly into d_model
             dropout=dropout
         ).double()
@@ -48,7 +48,7 @@ class LSTMTransformer(nn.Module):
 
         # Output layer remains the same, assuming only hidden_dim is used for prediction
         self.output_fc = nn.Sequential(
-            nn.Linear(hidden_dim * 3, hidden_dim),  # Adjusted the input here to match Transformer output
+            nn.Linear(hidden_dim , hidden_dim),  # Adjusted the input here to match Transformer output
             nn.ReLU(),
             nn.Linear(hidden_dim, output_dim),
             nn.LogSoftmax(dim=-1) if logsoftmax else nn.Identity()
