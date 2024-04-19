@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 from SpecialLSTM import SpecialLSTM
 from consts import *
-
+from utils.usersvectors import UsersVectors
 
 class TransformerLSTM(nn.Module):
     def __init__(self, config):
@@ -35,6 +35,12 @@ class TransformerLSTM(nn.Module):
 
         self.user_vectors = UsersVectors(user_dim=self.hidden_dim, n_layers=self.n_layers)
         self.game_vectors = UsersVectors(user_dim=self.hidden_dim, n_layers=self.n_layers)
+
+    def init_game(self, batch_size=1):
+        return torch.stack([self.game_vectors.init_user] * batch_size, dim=0)
+
+    def init_user(self, batch_size=1):
+        return torch.stack([self.user_vectors.init_user] * batch_size, dim=0)
 
     def forward(self, vectors, **kwargs):
             x = vectors["x"]
