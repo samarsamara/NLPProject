@@ -34,13 +34,13 @@ class LSTMTransformer(nn.Module):
         # Adjusting Transformer's d_model to accommodate concatenated inputs
         self.transformer_layer = nn.TransformerEncoderLayer(
             d_model=hidden_dim * 3,  # Adjusted to triple the hidden_dim to match concatenated inputs
-            nhead=4,  # Choose a number of heads that divides evenly into d_model
+            nhead=nhead,  # Choose a number of heads that divides evenly into d_model
             dropout=dropout
         ).double()
 
         self.transformer_encoder = nn.TransformerEncoder(
             self.transformer_layer,
-            num_layers=6
+            num_layers=n_layers
         ).double()
 
         # Output layer remains the same, assuming only hidden_dim is used for prediction
@@ -77,6 +77,27 @@ class LSTMTransformer(nn.Module):
         # Concatenation for Transformer input
         combined_input = torch.cat([lstm_out, game_vector, user_vector], dim=-1)
         transformer_out = self.transformer_encoder(combined_input)
-
         output = self.output_fc(transformer_out)
-        return output
+        return {"output": output}
+
+    
+class LSTMTransformer_env(environment.Environment):
+        def init_model_arc(self, config):
+            self.model = LSTMTransformer(config=config).double()
+    
+        def predict_proba(self, data, update_vectors: bool, vectors_in_input=False):
+            if vectors_in_input:
+                output = self.model(data)
+            else:
+                raise NotImplementedError
+            output["proba"] = torch.exp(output["output"].flatten())
+            return output
+    
+        def init_user_vector(self):
+            self.currentDM = self.model.init_user()
+    
+        def init_game_vector(self):
+            self.currentGame = self.model.init_game()
+    
+        def get_curr_vectors(self):
+            return {"user_vector": 888, }
