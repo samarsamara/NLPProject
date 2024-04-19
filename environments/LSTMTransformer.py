@@ -31,8 +31,8 @@ class LSTMTransformer(nn.Module):
             dropout=dropout if n_layers > 1 else 0
         ).double()
 
-        self.user_vectors = UsersVectors(user_dim=self.hidden_dim, n_layers=self.n_layers)
-        self.game_vectors = UsersVectors(user_dim=self.hidden_dim, n_layers=self.n_layers)
+        self.user_vectors = UsersVectors(user_dim=hidden_dim, n_layers=n_layers)
+        self.game_vectors = UsersVectors(user_dim=hidden_dim, n_layers=n_layers)
 
         # Adjusting Transformer's d_model to accommodate concatenated inputs
         self.transformer_layer = nn.TransformerEncoderLayer(
