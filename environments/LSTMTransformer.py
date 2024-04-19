@@ -1,5 +1,7 @@
 import torch
 import torch.nn as nn
+from environments import environment
+from consts import *
 
 class LSTMTransformer(nn.Module):
     def __init__(self,config,logsoftmax = True):
