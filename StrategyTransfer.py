@@ -82,6 +82,7 @@ meta_features_map = {"features": {"EFs": {"FEATURES_PATH": config["SIMULATION_EF
 
 for meta_feature, meta_feature_map in meta_features_map.items():
     if config[meta_feature] not in meta_feature_map.keys():
+        print(config[meta_feature])
         raise NotImplementedError(meta_feature)
     for config_feature, val in meta_feature_map[config[meta_feature]].items():
         config[config_feature] = val
