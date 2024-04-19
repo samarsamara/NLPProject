@@ -38,6 +38,8 @@ class TransformerLSTM(nn.Module):
 
     def forward(self, vectors, **kwargs):
             x = vectors["x"]
+            user_vector = vectors["user_vector"]
+            game_vector = vectors["game_vector"]
             transformer_input = self.fc(x)
             transformer_output = self.transformer(transformer_input)
             lstm_input = self.input_fc(input_vec)
@@ -50,7 +52,7 @@ class TransformerLSTM(nn.Module):
                 lstm_input = lstm_input.reshape((1,) * (len(shape) - 1) + lstm_input.shape)
             user_vector = user_vector.reshape(shape[:-1][::-1] + (shape[-1],))
             game_vector = game_vector.reshape(shape[:-1][::-1] + (shape[-1],))
-            lstm_output, (game_vector, user_vector) = self.main_task(lstm_input.contiguous(),
+            lstm_output, (game_vector, user_vector) = self.lstm(lstm_input.contiguous(),
                                                                      (game_vector.contiguous(),
                                                                       user_vector.contiguous()))
             
