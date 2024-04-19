@@ -1,6 +1,7 @@
 import utils
 import environments
 from environments.LSTMTransformer import LSTMTransformer_env
+from environments.TransformerLSTM import TransformerLSTM_env
 from consts import *
 from utils.functions import *
 import wandb
@@ -78,7 +79,8 @@ meta_features_map = {"features": {"EFs": {"FEATURES_PATH": config["SIMULATION_EF
                                   "BERT": {"FEATURES_PATH": "data/BERT_PCA_36.csv", "REVIEW_DIM": 36}},
                      "architecture": {"LSTM": {"use_user_vector": True},
                                       "transformer": {"use_user_vector": False},
-                                      "LSTMTransformer": {"use_user_vector": True}}
+                                      "LSTMTransformer": {"use_user_vector": True},
+                                     "TransformerLSTM": {"use_user_vector": True}}
                      }
 
 for meta_feature, meta_feature_map in meta_features_map.items():
@@ -113,3 +115,5 @@ elif config["architecture"] == "transformer":
     env_model = environments.transformer_env.transformer_env(env_name, config=config)
 elif config["architecture"] == "LSTMTransformer":
     env_model = LSTMTransformer_env(env_name, config=config)
+elif config["architecture"] == "TransformerLSTM":
+    env_model = TransformerLSTM_env(env_name, config=config)
