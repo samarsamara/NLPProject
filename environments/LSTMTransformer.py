@@ -82,7 +82,11 @@ class LSTMTransformer(nn.Module):
         # combined_input = torch.cat([lstm_output, game_vector, user_vector], dim=1)
         transformer_out = self.transformer_encoder(lstm_output)
         output = self.output_fc(transformer_out)
-        return {"output": output}
+        if self.training:
+            return {"output": output, "game_vector": game_vector, "user_vector": user_vector}
+        else:
+            return {"output": output, "game_vector": game_vector.detach(), "user_vector": user_vector.detach()}
+   
 
     
 class LSTMTransformer_env(environment.Environment):
