@@ -1,4 +1,4 @@
-vfrom environments import environment
+from environments import environment
 import torch
 import torch.nn as nn
 from SpecialLSTM import SpecialLSTM
