@@ -6,7 +6,7 @@ from consts import *
 from utils.usersvectors import UsersVectors
 
 class TransformerLSTM(nn.Module):
-    def __init__(self, config):
+    def __init__(self, config,logsoftmax = True):
         super().__init__()
         input_dim = config["input_dim"]
         dropout = config["dropout"]
