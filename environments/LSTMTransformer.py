@@ -19,7 +19,7 @@ class LSTMTransformer(nn.Module):
             num_layers=n_layers,
             batch_first=True,
             dropout=dropout if n_layers > 1 else 0
-        ).double
+        ).double()
 
         self.user_vectors = UsersVectors(user_dim=self.hidden_dim, n_layers=self.n_layers)
         self.game_vectors = UsersVectors(user_dim=self.hidden_dim, n_layers=self.n_layers)
@@ -43,12 +43,33 @@ class LSTMTransformer(nn.Module):
             nn.Linear(hidden_dim, output_dim),
             nn.LogSoftmax(dim=-1) if logsoftmax else nn.Identity()
         ).double()
+        
+    def init_game(self, batch_size=1):
+        return torch.stack([self.game_vectors.init_user] * batch_size, dim=0)
+
+    def init_user(self, batch_size=1):
+        return torch.stack([self.user_vectors.init_user] * batch_size, dim=0)
 
     def forward(self, input_vec, game_vector, user_vector):
-        x = self.input_fc(input_vec)
+        lstm_input = self.input_fc(input_vec)
+
+        lstm_shape = lstm_input.shape
+        shape = user_vector.shape
+        assert game_vector.shape == shape
+        if len(lstm_shape) != len(shape):
+            lstm_input = lstm_input.reshape((1,) * (len(shape) - 1) + lstm_input.shape)
+        user_vector = user_vector.reshape(shape[:-1][::-1] + (shape[-1],))
+        game_vector = game_vector.reshape(shape[:-1][::-1] + (shape[-1],))
+        lstm_output, (game_vector, user_vector) = self.main_task(lstm_input.contiguous(),
+                                                                 (game_vector.contiguous(),
+                                                                  user_vector.contiguous()))
 
         # LSTM processing
-        lstm_out, (hn, cn) = self.lstm(x)
+        lstm_out, (hn, cn) = self.lstm(lstm_input)
+
+
+        user_vector = user_vector.reshape(shape)
+        game_vector = game_vector.reshape(shape)
 
         # Concatenation for Transformer input
         combined_input = torch.cat([lstm_out, game_vector, user_vector], dim=-1)
