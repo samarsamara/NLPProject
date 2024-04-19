@@ -2,8 +2,16 @@ import torch
 import torch.nn as nn
 
 class LSTMTransformer(nn.Module):
-    def __init__(self, n_layers, input_dim, hidden_dim, output_dim, dropout, logsoftmax=True):
+    def __init__(self,config):
         super().__init__()
+        nhead = config["transformer_nheads"]
+        input_dim = config["input_dim"]
+        dropout = config["dropout"]
+        nhead = config["transformer_nheads"]
+        hidden_dim = config["hidden_dim"]
+        output_dim = config["output_dim"]
+        logsfotmax = config["logsfotmax"]
+        n_layers = config["layers"]
         self.input_fc = nn.Sequential(
             nn.Linear(input_dim, input_dim * 2),
             nn.Dropout(dropout),
@@ -27,7 +35,7 @@ class LSTMTransformer(nn.Module):
         # Adjusting Transformer's d_model to accommodate concatenated inputs
         self.transformer_layer = nn.TransformerEncoderLayer(
             d_model=hidden_dim * 3,  # Adjusted to triple the hidden_dim to match concatenated inputs
-            nhead=8,  # Choose a number of heads that divides evenly into d_model
+            nhead=4,  # Choose a number of heads that divides evenly into d_model
             dropout=dropout
         ).double()
 
@@ -60,13 +68,9 @@ class LSTMTransformer(nn.Module):
             lstm_input = lstm_input.reshape((1,) * (len(shape) - 1) + lstm_input.shape)
         user_vector = user_vector.reshape(shape[:-1][::-1] + (shape[-1],))
         game_vector = game_vector.reshape(shape[:-1][::-1] + (shape[-1],))
-        lstm_output, (game_vector, user_vector) = self.main_task(lstm_input.contiguous(),
+        lstm_output, (game_vector, user_vector) = self.lstm(lstm_input.contiguous(),
                                                                  (game_vector.contiguous(),
                                                                   user_vector.contiguous()))
-
-        # LSTM processing
-        lstm_out, (hn, cn) = self.lstm(lstm_input)
-
 
         user_vector = user_vector.reshape(shape)
         game_vector = game_vector.reshape(shape)
