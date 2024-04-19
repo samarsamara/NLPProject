@@ -12,29 +12,32 @@ class TransformerLSTM(nn.Module):
         dropout = config["dropout"]
         nhead = config["transformer_nheads"]
         hidden_dim = config["hidden_dim"]
+        n_layers = config["layers"]
+        output_dim = config["output_dim"]
         self.user_vectors = None
+        self.input_twice = False
         self.fc = nn.Sequential(nn.Linear(input_dim, hidden_dim),
                                 nn.Dropout(dropout),
                                 nn.ReLU(),
                                 ).double()
 
         self.encoder_layer = nn.TransformerEncoderLayer(d_model=hidden_dim, nhead=nhead, dropout=dropout)
-        self.transformer = nn.TransformerEncoder(self.encoder_layer, num_layers=config["layers"]).double()
-        self.lstm = nn.LSTM(input_size=self.hidden_dim,
-                                 hidden_size=self.hidden_dim,
+        self.transformer = nn.TransformerEncoder(self.encoder_layer, num_layers=n_layers).double()
+        self.lstm = nn.LSTM(input_size=hidden_dim,
+                                 hidden_size=hidden_dim,
                                  batch_first=True,
-                                 num_layers=self.n_layers,
+                                 num_layers=n_layers,
                                  dropout=dropout)
-        seq = [nn.Linear(self.hidden_dim + (input_dim if self.input_twice else 0), self.hidden_dim // 2),
+        seq = [nn.Linear(hidden_dim + (input_dim if self.input_twice else 0), hidden_dim // 2),
                nn.ReLU(),
-               nn.Linear(self.hidden_dim // 2, self.output_dim)]
+               nn.Linear(hidden_dim // 2, output_dim)]
         if logsoftmax:
             seq += [nn.LogSoftmax(dim=-1)]
 
         self.output_fc = nn.Sequential(*seq)
 
-        self.user_vectors = UsersVectors(user_dim=self.hidden_dim, n_layers=self.n_layers)
-        self.game_vectors = UsersVectors(user_dim=self.hidden_dim, n_layers=self.n_layers)
+        self.user_vectors = UsersVectors(user_dim=hidden_dim, n_layers=n_layers)
+        self.game_vectors = UsersVectors(user_dim=hidden_dim, n_layers=n_layers)
 
     def init_game(self, batch_size=1):
         return torch.stack([self.game_vectors.init_user] * batch_size, dim=0)
