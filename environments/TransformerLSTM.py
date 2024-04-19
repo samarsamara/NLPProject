@@ -5,7 +5,7 @@ from SpecialLSTM import SpecialLSTM
 from consts import *
 
 
-class TransformerLSTM_env(nn.Module):
+class TransformerLSTM(nn.Module):
     def __init__(self, config):
         super().__init__()
         input_dim = config["input_dim"]
@@ -64,7 +64,7 @@ class TransformerLSTM_env(nn.Module):
                 return {"output": output, "game_vector": game_vector.detach(), "user_vector": user_vector.detach()}
 
 
-class TransformerLSTM(environment.Environment):
+class TransformerLSTM_env(environment.Environment):
     def init_model_arc(self, config):
         self.model = TransformerLSTM_env(config).double()
 
