@@ -63,8 +63,6 @@ class LSTMTransformer(nn.Module):
     def forward(self, vectors,**kwargs):
         input_vec, game_vector, user_vector = (vectors['x'],vectors['game_vector'],vectors['user_vector'])
         lstm_input = self.input_fc(input_vec)
-        print(user_vector.shape)
-        print(game_vector.shape)
 
         lstm_shape = lstm_input.shape
         shape = user_vector.shape
@@ -77,15 +75,19 @@ class LSTMTransformer(nn.Module):
                                                                  (game_vector.contiguous(),
                                                                   user_vector.contiguous()))
 
+        # Reshape tensor2 and tensor3 to match the first dimension of tensor1
+        user_vector = user_vector.unsqueeze(1)  # Add a new dimension at index 1
+        game_vector = game_vector.unsqueeze(1)  # Add a new dimension at index 1
+
         print(lstm_output.shape)
         print(user_vector.shape)
         print(game_vector.shape)
 
-        user_vector = user_vector.reshape(shape)
-        game_vector = game_vector.reshape(shape)
+        # user_vector = user_vector.reshape(shape)
+        # game_vector = game_vector.reshape(shape)
 
-        print(user_vector.shape)
-        print(game_vector.shape)
+        # print(user_vector.shape)
+        # print(game_vector.shape)
 
         # Concatenation for Transformer input
         combined_input = torch.cat([lstm_output, game_vector, user_vector], dim=-1)
