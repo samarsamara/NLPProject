@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 from environments import environment
 from consts import *
+from utils.usersvectors import UsersVectors
 
 class LSTMTransformer(nn.Module):
     def __init__(self,config,logsoftmax = True):
