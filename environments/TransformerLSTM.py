@@ -1,11 +1,11 @@
-from environments import environment
+vfrom environments import environment
 import torch
 import torch.nn as nn
 from SpecialLSTM import SpecialLSTM
 from consts import *
 
 
-class TransformerLSTM(nn.Module):
+class TransformerLSTM_env(nn.Module):
     def __init__(self, config):
         super().__init__()
         input_dim = config["input_dim"]
@@ -62,6 +62,32 @@ class TransformerLSTM(nn.Module):
                 return {"output": output, "game_vector": game_vector, "user_vector": user_vector}
             else:
                 return {"output": output, "game_vector": game_vector.detach(), "user_vector": user_vector.detach()}
+
+
+class TransformerLSTM(environment.Environment):
+    def init_model_arc(self, config):
+        self.model = TransformerLSTM_env(config).double()
+
+    def predict_proba(self, data, update_vectors: bool, vectors_in_input=False):
+        if vectors_in_input:
+            output = self.model(data)
+        else:
+            output = self.model({**data, "user_vector": self.currentDM, "game_vector": self.currentGame})
+        output["proba"] = torch.exp(output["output"].flatten())
+        if update_vectors:
+            self.currentDM = output["user_vector"]
+            self.currentGame = output["game_vector"]
+        return output
+
+
+    def init_user_vector(self):
+        self.currentDM = self.model.init_user()
+
+    def init_game_vector(self):
+        self.currentGame = self.model.init_game()
+
+    def get_curr_vectors(self):
+        return {"user_vector": 888, }
              
             
 
