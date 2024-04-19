@@ -71,7 +71,7 @@ class LSTMTransformer(nn.Module):
             lstm_input = lstm_input.reshape((1,) * (len(shape) - 1) + lstm_input.shape)
         user_vector = user_vector.reshape(shape[:-1][::-1] + (shape[-1],))
         game_vector = game_vector.reshape(shape[:-1][::-1] + (shape[-1],))
-        lstm_output, (game_vector, user_vector) = self.lstm(lstm_input.contiguous(),
+        lstm_output, (game_vec, user_vec) = self.lstm(lstm_input.contiguous(),
                                                                  (game_vector.contiguous(),
                                                                   user_vector.contiguous()))
 
