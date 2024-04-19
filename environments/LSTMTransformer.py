@@ -83,9 +83,9 @@ class LSTMTransformer(nn.Module):
         transformer_out = self.transformer_encoder(lstm_output)
         output = self.output_fc(transformer_out)
         if self.training:
-            return {"output": output, "game_vector": game_vector, "user_vector": user_vector}
+            return {"output": output, "game_vector": game_vec, "user_vector": user_vec}
         else:
-            return {"output": output, "game_vector": game_vector.detach(), "user_vector": user_vector.detach()}
+            return {"output": output, "game_vector": game_vec.detach(), "user_vector": user_vec.detach()}
    
 
     
