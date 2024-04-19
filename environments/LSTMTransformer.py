@@ -75,22 +75,11 @@ class LSTMTransformer(nn.Module):
                                                                  (game_vector.contiguous(),
                                                                   user_vector.contiguous()))
 
-        # Reshape tensor2 and tensor3 to match the first dimension of tensor1
-        user_vector = user_vector.unsqueeze(1)  # Add a new dimension at index 1
-        game_vector = game_vector.unsqueeze(1)  # Add a new dimension at index 1
-
-        print(lstm_output.shape)
-        print(user_vector.shape)
-        print(game_vector.shape)
-
-        # user_vector = user_vector.reshape(shape)
-        # game_vector = game_vector.reshape(shape)
-
-        # print(user_vector.shape)
-        # print(game_vector.shape)
+        user_vector = user_vector.reshape(shape)
+        game_vector = game_vector.reshape(shape)
 
         # Concatenation for Transformer input
-        combined_input = torch.cat([lstm_output, game_vector, user_vector], dim=0)
+        combined_input = torch.cat([lstm_output, game_vector, user_vector], dim=1)
         transformer_out = self.transformer_encoder(combined_input)
         output = self.output_fc(transformer_out)
         return {"output": output}
