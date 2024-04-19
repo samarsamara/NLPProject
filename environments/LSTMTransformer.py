@@ -63,8 +63,6 @@ class LSTMTransformer(nn.Module):
     def forward(self, vectors,**kwargs):
         input_vec, game_vector, user_vector = (vectors['x'],vectors['game_vector'],vectors['user_vector'])
         lstm_input = self.input_fc(input_vec)
-        print(user_vector.shape)
-        print(game_vector.shape)
         lstm_shape = lstm_input.shape
         shape = user_vector.shape
         assert game_vector.shape == shape
