@@ -22,7 +22,7 @@ def str2bool(v):
 # General Features
 parser.add_argument('--ENV_HPT_mode', type=str2bool, default=False, help='Enable/disable HPT mode')
 parser.add_argument('--seed', type=int, default=1, help='Random seed')
-parser.add_argument('--task', choices=["off_policy", "on_policy"], default="off_policy", help='Task')
+parser.add_argument('--task', choices=["off_policy", "on_policy"], default="on_policy", help='Task')
 parser.add_argument('--ENV_LEARNING_RATE', type=float, default=1e-3, help='Learning rate')
 parser.add_argument('--loss_weight_type', type=str, default="None", help='Loss weight type')
 parser.add_argument('--save_artifacts', type=str2bool, default=True, help='Save artifacts flag')
