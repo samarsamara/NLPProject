@@ -1,6 +1,6 @@
 import wandb
-YOUR_WANDB_USERNAME = "s-samar2499"
-project = "Strategy_Transfer_TACL_s-samar2499"
+YOUR_WANDB_USERNAME = "samar2499"
+project = "Strategy_Transfer_TACL_samar2499"
 
 command = [
         "${ENVIRONMENT_VARIABLE}",
@@ -31,4 +31,4 @@ sweep_config = {
 # Initialize a new sweep
 sweep_id = wandb.sweep(sweep=sweep_config, project=project)
 print("run this line to run your agent in a screen:")
-print(f"screen -dmS \"sweep_agent\" wandb agent {ssamar2499}/{project}/{sweep_id}")
+print(f"screen -dmS \"sweep_agent\" wandb agent {s_samar2499}/{project}/{sweep_id}")
