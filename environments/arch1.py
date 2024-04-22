@@ -31,6 +31,9 @@ class arch1(nn.Module):
             dropout=dropout if n_layers > 1 else 0
         ).double()
 
+        # Layer Normalization after LSTM
+        self.lstm_norm = nn.LayerNorm(hidden_dim).double()
+
         self.user_vectors = UsersVectors(user_dim=hidden_dim, n_layers=n_layers)
         self.game_vectors = UsersVectors(user_dim=hidden_dim, n_layers=n_layers)
 
@@ -73,6 +76,10 @@ class arch1(nn.Module):
         lstm_output, (game_vec, user_vec) = self.lstm(lstm_input.contiguous(),
                                                                  (game_vector.contiguous(),
                                                                   user_vector.contiguous()))
+
+        # Apply normalization to LSTM output
+        lstm_output = self.lstm_norm(lstm_output)
+        
         user_vec = user_vec.reshape(shape)
         game_vec = game_vec.reshape(shape)
 
