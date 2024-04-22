@@ -85,7 +85,7 @@ class arch1(nn.Module):
 
         output = []
         for i in range(DATA_ROUNDS_PER_GAME):
-            time_output = self.transformer_encoder(x[:, :i+1].contiguous())[:, -1, :]
+            time_output = self.transformer_encoder(lstm_output[:, :i+1].contiguous())[:, -1, :]
             output.append(time_output)
         output = torch.stack(output, 1)
         output = self.output_fc(output)
