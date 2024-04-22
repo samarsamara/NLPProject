@@ -4,7 +4,7 @@ from environments import environment
 from consts import *
 from utils.usersvectors import UsersVectors
 
-class LSTMTransformer(nn.Module):
+class arch1(nn.Module):
     def __init__(self,config,logsoftmax = True):
         super().__init__()
         nhead = config["transformer_nheads"]
@@ -15,10 +15,10 @@ class LSTMTransformer(nn.Module):
         output_dim = config["output_dim"]
         n_layers = config["layers"]
         self.input_fc = nn.Sequential(
-            nn.Linear(input_dim, input_dim * 2),
+            nn.Linear(input_dim, input_dim // 2),
             nn.Dropout(dropout),
             nn.ReLU(),
-            nn.Linear(input_dim * 2, hidden_dim),
+            nn.Linear(input_dim // 2, hidden_dim),
             nn.Dropout(dropout),
             nn.ReLU()
         ).double()
