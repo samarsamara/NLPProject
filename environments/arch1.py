@@ -56,7 +56,7 @@ class arch1(nn.Module):
             nn.Linear(hidden_dim//2, output_dim),
             nn.LogSoftmax(dim=-1) if logsoftmax else nn.Identity()
         ).double()
-        
+    
     def init_game(self, batch_size=1):
         return torch.stack([self.game_vectors.init_user] * batch_size, dim=0)
 
@@ -83,14 +83,13 @@ class arch1(nn.Module):
         user_vec = user_vec.reshape(shape)
         game_vec = game_vec.reshape(shape)
 
-        # Concatenation for Transformer input
-        # combined_input = torch.cat([lstm_output, game_vector, user_vector], dim=1)
-        transformer_out = self.transformer_encoder(lstm_output)
-        output = self.output_fc(transformer_out)
-        if self.training:
-            return {"output": output, "game_vector": game_vec, "user_vector": user_vec}
-        else:
-            return {"output": output, "game_vector": game_vec.detach(), "user_vector": user_vec.detach()}
+        output = []
+        for i in range(DATA_ROUNDS_PER_GAME):
+            time_output = self.transformer_encoder(x[:, :i+1].contiguous())[:, -1, :]
+            output.append(time_output)
+        output = torch.stack(output, 1)
+        output = self.output_fc(output)
+        return {"output": output}
    
 
     
