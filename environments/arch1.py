@@ -100,7 +100,7 @@ class arch1(nn.Module):
     
 class arch1_env(environment.Environment):
         def init_model_arc(self, config):
-            self.model = LSTMTransformer(config=config).double()
+            self.model = arch1(config=config).double()
     
         def predict_proba(self, data, update_vectors: bool, vectors_in_input=False):
             if vectors_in_input:
