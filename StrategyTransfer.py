@@ -36,7 +36,7 @@ parser.add_argument('--features', type=str, default="EFs", help='Input features'
 # Architecture Features
 parser.add_argument('--architecture', type=str, default="LSTM", help='Model architecture')
 parser.add_argument('--hidden_dim', type=int, default=32, help='Hidden dimensions')
-parser.add_argument('--layers', type=int, default=3, help='Number of layers')
+parser.add_argument('--layers', type=int, default=2, help='Number of layers')
 parser.add_argument('--transformer_nheads', type=int, default=8, help='Transformer heads')
 parser.add_argument('--dropout', type=float, default=0.5, help='Dropout rate')
 
