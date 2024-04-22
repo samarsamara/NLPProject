@@ -98,7 +98,7 @@ class arch1(nn.Module):
    
 
     
-class LSTMTransformer_env(environment.Environment):
+class arch1_env(environment.Environment):
         def init_model_arc(self, config):
             self.model = LSTMTransformer(config=config).double()
     
