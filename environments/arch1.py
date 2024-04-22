@@ -89,7 +89,12 @@ class arch1(nn.Module):
             output.append(time_output)
         output = torch.stack(output, 1)
         output = self.output_fc(output)
-        return {"output": output}
+        if self.training:
+            return {"output": output, "game_vector": game_vec, "user_vector": user_vec}
+        else:
+            return {"output": output, "game_vector": game_vec.detach(), "user_vector": user_vec.detach()}
+   
+
    
 
     
