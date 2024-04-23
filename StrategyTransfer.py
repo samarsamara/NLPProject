@@ -3,6 +3,7 @@ import environments
 from environments.LSTMTransformer import LSTMTransformer_env
 from environments.TransformerLSTM import TransformerLSTM_env
 from environments.arch1 import arch1_env
+from environments.hybridtuned import myhybrid_env
 from consts import *
 from utils.functions import *
 import wandb
@@ -22,7 +23,7 @@ def str2bool(v):
 
 # General Features
 parser.add_argument('--ENV_HPT_mode', type=str2bool, default=False, help='Enable/disable HPT mode')
-parser.add_argument('--seed', type=int, default=42, help='Random seed')
+parser.add_argument('--seed', type=int, default=1, help='Random seed')
 parser.add_argument('--task', choices=["off_policy", "on_policy"], default="off_policy", help='Task')
 parser.add_argument('--ENV_LEARNING_RATE', type=float, default=1e-3, help='Learning rate')
 parser.add_argument('--loss_weight_type', type=str, default="None", help='Loss weight type')
@@ -37,8 +38,8 @@ parser.add_argument('--features', type=str, default="EFs", help='Input features'
 parser.add_argument('--architecture', type=str, default="LSTM", help='Model architecture')
 parser.add_argument('--hidden_dim', type=int, default=32, help='Hidden dimensions')
 parser.add_argument('--layers', type=int, default=2, help='Number of layers')
-parser.add_argument('--transformer_nheads', type=int, default=8, help='Transformer heads')
-parser.add_argument('--dropout', type=float, default=0.5, help='Dropout rate')
+parser.add_argument('--transformer_nheads', type=int, default=4, help='Transformer heads')
+parser.add_argument('--dropout', type=float, default=0, help='Dropout rate')
 
 # Human data
 parser.add_argument('--human_train_size', type=int, default=210, help='Training set size (in No. of users)')
@@ -82,7 +83,8 @@ meta_features_map = {"features": {"EFs": {"FEATURES_PATH": config["SIMULATION_EF
                                       "transformer": {"use_user_vector": False},
                                       "LSTMTransformer": {"use_user_vector": True},
                                      "TransformerLSTM": {"use_user_vector": True},
-                                     "arch1": {"use_user_vector": True}}
+                                     "arch1": {"use_user_vector": True},
+                                     "hybrid":("use_user_vector":True}
                      }
 
 for meta_feature, meta_feature_map in meta_features_map.items():
@@ -121,3 +123,6 @@ elif config["architecture"] == "TransformerLSTM":
     env_model = TransformerLSTM_env(env_name, config=config)
 elif config["architecture"] == "arch1":
     env_model = arch1_env(env_name, config=config)
+elif config["architecture"] == "hybrid":
+    env_model = myhybrid_env(env_name, config=config)
+    
