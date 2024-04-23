@@ -4,7 +4,7 @@ from environments import environment
 from consts import *
 from utils.usersvectors import UsersVectors
 class myhybrid(nn.Module):
-    def __init__(self,self,config,logsoftmax = True):
+    def __init__(self,config,logsoftmax = True):
         super().__init__()
         nhead = config["transformer_nheads"]
         input_dim = config["input_dim"]
