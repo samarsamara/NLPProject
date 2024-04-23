@@ -123,5 +123,5 @@ elif config["architecture"] == "TransformerLSTM":
 elif config["architecture"] == "arch1":
     env_model = arch1_env(env_name, config=config)
 elif config["architecture"] == "hybrid":
-    env_model = myhybrid_env(env_name, config=config)
+    env_model = myhyprid_env(env_name, config=config)
     
