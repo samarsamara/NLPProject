@@ -3,7 +3,7 @@ import environments
 from environments.LSTMTransformer import LSTMTransformer_env
 from environments.TransformerLSTM import TransformerLSTM_env
 from environments.arch1 import arch1_env
-from environments.hybridtuned import myhybrid_env
+from environments.hybridtuned import myhyprid_env
 from consts import *
 from utils.functions import *
 import wandb
