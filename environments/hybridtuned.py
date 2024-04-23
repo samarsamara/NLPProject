@@ -76,6 +76,8 @@ class myhybrid(nn.Module):
         lstm_output, (game_vec, user_vec) = self.main_task(lstm_input.contiguous(),
                                                                  (game_vector.contiguous(),
                                                                   user_vector.contiguous()))
+        print(lstm_output.shape)
+        print(output.shape)
         concatenated_output = torch.cat((lstm_output, output), dim=-1)
         final_output=self.pred(concatenated_output)
         user_vec = user_vec.reshape(shape)
