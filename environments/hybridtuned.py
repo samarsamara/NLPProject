@@ -76,10 +76,16 @@ class myhybrid(nn.Module):
         lstm_output, (game_vec, user_vec) = self.main_task(lstm_input.contiguous(),
                                                                  (game_vector.contiguous(),
                                                                   user_vector.contiguous()))
-        print(lstm_output.shape)
-        print(output.shape)
-        concatenated_output = torch.cat((lstm_output, output), dim=-1)
-        final_output=self.pred(concatenated_output)
+        hidden_dim = concatenated_output.size(2)
+        pred = nn.Sequential(
+            nn.Linear(hidden_dim, hidden_dim // 2),
+            nn.ReLU(),
+            nn.Linear(hidden_dim // 2, 2),
+            nn.LogSoftmax(dim=-1)
+        ).double()
+
+        # Apply the fully connected layers to the concatenated output
+        final_output = pred(concatenated_output.view(-1, hidden_dim))
         user_vec = user_vec.reshape(shape)
         game_vec = game_vec.reshape(shape)
 
