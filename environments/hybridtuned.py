@@ -76,6 +76,7 @@ class myhybrid(nn.Module):
         lstm_output, (game_vec, user_vec) = self.main_task(lstm_input.contiguous(),
                                                                  (game_vector.contiguous(),
                                                                   user_vector.contiguous()))
+        concatenated_output = torch.cat((lstm_output, output), dim=2)
         hidden_dim = concatenated_output.size(2)
         pred = nn.Sequential(
             nn.Linear(hidden_dim, hidden_dim // 2),
