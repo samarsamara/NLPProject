@@ -58,7 +58,7 @@ class myhybrid(nn.Module):
 
     def forward(self, vectors,**kwargs):
         input_vec, game_vector, user_vector = (vectors['x'],vectors['game_vector'],vectors['user_vector'])
-        x = self.fc(x)
+        x = self.fc(input_vec)
         output = []
         for i in range(DATA_ROUNDS_PER_GAME):
             time_output = self.main_task1(x[:, :i+1].contiguous())[:, -1, :]
