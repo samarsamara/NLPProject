@@ -84,7 +84,7 @@ meta_features_map = {"features": {"EFs": {"FEATURES_PATH": config["SIMULATION_EF
                                       "LSTMTransformer": {"use_user_vector": True},
                                      "TransformerLSTM": {"use_user_vector": True},
                                      "arch1": {"use_user_vector": True},
-                                     "hybrid":("use_user_vector":True}
+                                     "hybrid":{"use_user_vector":True}
                      }
 
 for meta_feature, meta_feature_map in meta_features_map.items():
