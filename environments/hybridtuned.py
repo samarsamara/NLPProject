@@ -1,3 +1,8 @@
+import torch
+import torch.nn as nn
+from environments import environment
+from consts import *
+from utils.usersvectors import UsersVectors
 class myhybrid(nn.Module):
     def __init__(self,self,config,logsoftmax = True):
         super().__init__()
