@@ -98,7 +98,7 @@ class myhybrid(nn.Module):
    
 
     
-class myhyprid(environment.Environment):
+class myhyprid_env(environment.Environment):
         def init_model_arc(self, config):
             self.model = myhybrid(config=config).double()
     
