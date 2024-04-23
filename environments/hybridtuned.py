@@ -80,4 +80,24 @@ class myhybrid(nn.Module):
             return {"output": final_output, "game_vector": game_vec, "user_vector": user_vec}
         else:
             return {"output": final_output, "game_vector": game_vec.detach(), "user_vector": user_vec.detach()}
+class myhyprid_env(environment.Environment):
+        def init_model_arc(self, config):
+            self.model = myhybrid(config=config).double()
+    
+        def predict_proba(self, data, update_vectors: bool, vectors_in_input=False):
+            if vectors_in_input:
+                output = self.model(data)
+            else:
+                raise NotImplementedError
+            output["proba"] = torch.exp(output["output"].flatten())
+            return output
+    
+        def init_user_vector(self):
+            self.currentDM = self.model.init_user()
+    
+        def init_game_vector(self):
+            self.currentGame = self.model.init_game()
+    
+        def get_curr_vectors(self):
+            return {"user_vector": 888, }
 
