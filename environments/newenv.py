@@ -4,7 +4,7 @@ from environments import environment
 from consts import *
 from utils.usersvectors import UsersVectors
 
-class arch2(nn.Module):
+class arch3(nn.Module):
     def __init__(self,config,logsoftmax = True):
         super().__init__()
         nhead = config["transformer_nheads"]
@@ -93,9 +93,9 @@ class arch2(nn.Module):
    
 
     
-class arch2_env(environment.Environment):
+class arch3_env(environment.Environment):
         def init_model_arc(self, config):
-            self.model = arch2(config=config).double()
+            self.model = arch3(config=config).double()
     
         def predict_proba(self, data, update_vectors: bool, vectors_in_input=False):
             if vectors_in_input:
