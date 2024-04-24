@@ -41,7 +41,7 @@ parser.add_argument('--architecture', type=str, default="LSTM", help='Model arch
 parser.add_argument('--hidden_dim', type=int, default=32, help='Hidden dimensions')
 parser.add_argument('--layers', type=int, default=2, help='Number of layers')
 parser.add_argument('--transformer_nheads', type=int, default=4, help='Transformer heads')
-parser.add_argument('--dropout', type=float, default=0.5, help='Dropout rate')
+parser.add_argument('--dropout', type=float, default=0, help='Dropout rate')
 
 # Human data
 parser.add_argument('--human_train_size', type=int, default=210, help='Training set size (in No. of users)')
