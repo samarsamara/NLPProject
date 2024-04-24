@@ -5,6 +5,8 @@ from environments.TransformerLSTM import TransformerLSTM_env
 from environments.arch1 import arch1_env
 from environments.hybridtuned import myhyprid_env
 from environments.arch2 import arch2_env
+from environments.newenv import arch3_env
+
 
 from consts import *
 from utils.functions import *
@@ -87,7 +89,7 @@ meta_features_map = {"features": {"EFs": {"FEATURES_PATH": config["SIMULATION_EF
                                      "TransformerLSTM": {"use_user_vector": True},
                                      "arch1": {"use_user_vector": True},
                                      "arch2": {"use_user_vector": True},
-
+                                     "arch3": {"use_user_vector": True},
                                      "hybrid":{"use_user_vector":True}}}
 for meta_feature, meta_feature_map in meta_features_map.items():
     if config[meta_feature] not in meta_feature_map.keys():
@@ -127,8 +129,10 @@ elif config["architecture"] == "TransformerLSTM":
 elif config["architecture"] == "arch1":
     env_model = arch1_env(env_name, config=config)
 elif config["architecture"] == "arch2":
-    env_model = arch1_env(env_name, config=config)
+    env_model = arch2_env(env_name, config=config)
 elif config["architecture"] == "hybrid":
     env_model = myhyprid_env(env_name, config=config)
+elif config["architecture"] == "arch3":
+    env_model = arch3_env(env_name, config=config)
 
     
