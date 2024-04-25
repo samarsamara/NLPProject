@@ -7,6 +7,7 @@ from environments.hybridtuned import myhyprid_env
 from environments.arch2 import arch2_env
 from environments.newenv import arch3_env
 from environments.arch4 import arch4_env
+from environments.newenv2 import arch5_env
 
 
 from consts import *
@@ -92,6 +93,7 @@ meta_features_map = {"features": {"EFs": {"FEATURES_PATH": config["SIMULATION_EF
                                      "arch2": {"use_user_vector": True},
                                      "arch3": {"use_user_vector": True},
                                      "arch4": {"use_user_vector": True},
+                                     "arch5": {"use_user_vector": True},
                                      "hybrid":{"use_user_vector":True}}}
 for meta_feature, meta_feature_map in meta_features_map.items():
     if config[meta_feature] not in meta_feature_map.keys():
@@ -138,5 +140,7 @@ elif config["architecture"] == "arch3":
     env_model = arch3_env(env_name, config=config)
 elif config["architecture"] == "arch4":
     env_model = arch4_env(env_name, config=config)
+elif config["architecture"] == "arch5":
+    env_model = arch5_env(env_name, config=config)
 
     
