@@ -4,7 +4,7 @@ from environments import environment
 from consts import *
 from utils.usersvectors import UsersVectors
 
-class arch3(nn.Module):
+class arch4(nn.Module):
     def __init__(self,config,logsoftmax = True):
         super().__init__()
         nhead = config["transformer_nheads"]
@@ -95,7 +95,7 @@ class arch3(nn.Module):
    
 
     
-class arch3_env(environment.Environment):
+class arch4_env(environment.Environment):
         def init_model_arc(self, config):
             self.model = arch2(config=config).double()
     
