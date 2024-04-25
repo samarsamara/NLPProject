@@ -121,9 +121,7 @@ class Environment:
             phases.insert(0, ("Online Simulation", "sim_dataloader"))
 
         self.model.to(device)
-        # optimizer = torch.optim.Adam([p for p in chain(self.model.parameters()) if p.requires_grad],
-        #                              lr=self.env_learning_rate)
-        optimizer = torch.optim.Adagrad([p for p in chain(self.model.parameters()) if p.requires_grad],
+        optimizer = torch.optim.Adam([p for p in chain(self.model.parameters()) if p.requires_grad],
                                      lr=self.env_learning_rate)
         self.set_train_mode()
         metrics = Metrics("ENV")
