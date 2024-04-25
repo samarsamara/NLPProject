@@ -8,6 +8,8 @@ from environments.arch2 import arch2_env
 from environments.newenv import arch3_env
 from environments.arch4 import arch4_env
 from environments.newenv2 import arch5_env
+from environments.positional import mytransformerenv
+
 
 
 from consts import *
