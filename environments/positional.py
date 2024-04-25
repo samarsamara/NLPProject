@@ -30,14 +30,15 @@ class mytransformer(nn.Module):
             nn.LogSoftmax(dim=-1)
         ).double()
 
-        self.positional_encoding = self.generate_positional_encoding(DATA_ROUNDS_PER_GAME, hidden_dim)
+        self.positional_encoding = self.generate_positional_encoding(DATA_ROUNDS_PER_GAME,input_dim)
 
     def forward(self, vectors, **kwargs):
         x = vectors["x"]
+        x = x + self.positional_encoding.to(x.device)
+
         x = self.fc(x)
         
         # Add positional encoding
-        x = x + self.positional_encoding.to(x.device)
 
         output = []
         for i in range(DATA_ROUNDS_PER_GAME):
