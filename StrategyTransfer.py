@@ -96,7 +96,7 @@ meta_features_map = {"features": {"EFs": {"FEATURES_PATH": config["SIMULATION_EF
                                      "arch3": {"use_user_vector": True},
                                      "arch4": {"use_user_vector": True},
                                      "arch5": {"use_user_vector": True},
-                                     "arch6": {"use_user_vector": True},
+                                     "arch6": {"use_user_vector": False},
                                      "hybrid":{"use_user_vector":True}}}
 for meta_feature, meta_feature_map in meta_features_map.items():
     if config[meta_feature] not in meta_feature_map.keys():
