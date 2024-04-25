@@ -6,6 +6,7 @@ from environments.arch1 import arch1_env
 from environments.hybridtuned import myhyprid_env
 from environments.arch2 import arch2_env
 from environments.newenv import arch3_env
+from environments.arch4 import arch4_env
 
 
 from consts import *
