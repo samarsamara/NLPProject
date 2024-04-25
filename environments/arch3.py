@@ -4,7 +4,7 @@ from environments import environment
 from consts import *
 from utils.usersvectors import UsersVectors
 
-class arch2(nn.Module):
+class arch3(nn.Module):
     def __init__(self,config,logsoftmax = True):
         super().__init__()
         nhead = config["transformer_nheads"]
@@ -15,13 +15,13 @@ class arch2(nn.Module):
         output_dim = config["output_dim"]
         n_layers = config["layers"]
         self.input_fc = nn.Sequential(
-            nn.Linear(input_dim, hidden_dim),
+            nn.Linear(input_dim, hidden_dim//2),
             nn.Dropout(dropout),
             nn.ReLU()
         ).double()
 
         self.lstm = nn.LSTM(
-            input_size=hidden_dim,
+            input_size=hidden_dim//2,
             hidden_size=hidden_dim,
             num_layers=n_layers,
             batch_first=True,
@@ -48,9 +48,9 @@ class arch2(nn.Module):
 
         # Output layer remains the same, assuming only hidden_dim is used for prediction
         self.output_fc = nn.Sequential(
-            nn.Linear(hidden_dim , hidden_dim//2),  # Adjusted the input here to match Transformer output
+            nn.Linear(hidden_dim , hidden_dim//3),  # Adjusted the input here to match Transformer output
             nn.ReLU(),
-            nn.Linear(hidden_dim//2, output_dim),
+            nn.Linear(hidden_dim//3, output_dim),
             nn.LogSoftmax(dim=-1) if logsoftmax else nn.Identity()
         ).double()
     
@@ -95,7 +95,7 @@ class arch2(nn.Module):
    
 
     
-class arch2_env(environment.Environment):
+class arch3_env(environment.Environment):
         def init_model_arc(self, config):
             self.model = arch2(config=config).double()
     
