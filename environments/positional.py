@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 from consts import *
 import math
+from environments import environment
+from SpecialLSTM import SpecialLSTM
 
 class mytransformer(nn.Module):
     def __init__(self, config):
