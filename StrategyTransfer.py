@@ -91,6 +91,7 @@ meta_features_map = {"features": {"EFs": {"FEATURES_PATH": config["SIMULATION_EF
                                      "arch1": {"use_user_vector": True},
                                      "arch2": {"use_user_vector": True},
                                      "arch3": {"use_user_vector": True},
+                                     "arch4": {"use_user_vector": True},
                                      "hybrid":{"use_user_vector":True}}}
 for meta_feature, meta_feature_map in meta_features_map.items():
     if config[meta_feature] not in meta_feature_map.keys():
@@ -135,5 +136,7 @@ elif config["architecture"] == "hybrid":
     env_model = myhyprid_env(env_name, config=config)
 elif config["architecture"] == "arch3":
     env_model = arch3_env(env_name, config=config)
+elif config["architecture"] == "arch4":
+    env_model = arch4_env(env_name, config=config)
 
     
