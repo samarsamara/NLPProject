@@ -15,13 +15,13 @@ class arch4(nn.Module):
         output_dim = config["output_dim"]
         n_layers = config["layers"]
         self.input_fc = nn.Sequential(
-            nn.Linear(input_dim, hidden_dim//2),
+            nn.Linear(input_dim, hidden_dim),
             nn.Dropout(dropout),
             nn.ReLU()
         ).double()
 
         self.lstm = nn.LSTM(
-            input_size=hidden_dim//2,
+            input_size=hidden_dim,
             hidden_size=hidden_dim,
             num_layers=n_layers,
             batch_first=True,
