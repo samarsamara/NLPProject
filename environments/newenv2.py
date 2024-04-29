@@ -82,10 +82,12 @@ class arch5(nn.Module):
         game_vec = game_vec.reshape(shape)
 
        
-
+      
+        positional_encoding = self.generate_positional_encoding(lstm_output.size(1), lstm_output.size(2))
+        lstm_with_position = lstm_output + positional_encoding.to(lstm_output.device)
         output = []
         for i in range(DATA_ROUNDS_PER_GAME):
-            time_output = self.transformer_encoder(lstm_output[:, :i + 1].contiguous())[:, -1, :]
+            time_output = self.transformer_encoder(lstm_with_position[:, :i + 1].contiguous())[:, -1, :]
             output.append(time_output)
         output = torch.stack(output, 1)
         output = self.output_fc(output)
