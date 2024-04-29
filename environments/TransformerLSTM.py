@@ -54,12 +54,12 @@ class TransformerLSTM(nn.Module):
             for i in range(DATA_ROUNDS_PER_GAME):
                 time_output = self.transformer(transformer_input[:, :i+1].contiguous())[:, -1, :]
                 output.append(time_output)
-            output = torch.stack(output, 1)
-            lstm_shape = output.shape
+            lstm_input = torch.stack(output, 1)
+            lstm_shape = lstm_input.shape
             shape = user_vector.shape
             assert game_vector.shape == shape
             if len(lstm_shape) != len(shape):
-                lstm_input = output.reshape((1,) * (len(shape) - 1) + output.shape)
+                lstm_input = lstm_input.reshape((1,) * (len(shape) - 1) + lstm_input.shape)
             user_vector = user_vector.reshape(shape[:-1][::-1] + (shape[-1],))
             game_vector = game_vector.reshape(shape[:-1][::-1] + (shape[-1],))
             lstm_output, (game_vector, user_vector) = self.lstm(lstm_input.contiguous(),
