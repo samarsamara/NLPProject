@@ -52,7 +52,7 @@ class TransformerLSTM(nn.Module):
             transformer_input = self.fc(x)
             output = []
             for i in range(DATA_ROUNDS_PER_GAME):
-                time_output = self.transformer(x[:, :i+1].contiguous())[:, -1, :]
+                time_output = self.transformer(transformer_input[:, :i+1].contiguous())[:, -1, :]
                 output.append(time_output)
             output = torch.stack(output, 1)
             lstm_shape = output.shape
