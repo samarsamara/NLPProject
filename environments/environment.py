@@ -124,7 +124,7 @@ class Environment:
         self.model.to(device)
         optimizer = torch.optim.Adam([p for p in chain(self.model.parameters()) if p.requires_grad],
                                      lr=self.env_learning_rate)
-        scheduler = StepLR(optimizer, step_size=5, gamma=0.95) 
+        scheduler = StepLR(optimizer, step_size=3, gamma=0.95) 
         self.set_train_mode()
         metrics = Metrics("ENV")
         for epoch in range(self.config["total_epochs"]):
