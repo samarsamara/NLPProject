@@ -15,6 +15,7 @@ class arch5(nn.Module):
         hidden_dim = config["hidden_dim"]
         output_dim = config["output_dim"]
         n_layers = config["layers"]
+        hidden_dim=hidden_dim/2
         self.input_fc = nn.Sequential(
             nn.Linear(input_dim, hidden_dim),
             nn.Dropout(dropout),
