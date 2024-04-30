@@ -4,7 +4,7 @@ from environments import environment
 from consts import *
 from utils.usersvectors import UsersVectors
 
-class LSTMWithSelfAttention(nn.Module):
+class TransformerLSTMWithSelfAttention(nn.Module):
     def __init__(self, config, logsoftmax=True):
         super().__init__()
         input_dim = config["input_dim"]
@@ -12,12 +12,10 @@ class LSTMWithSelfAttention(nn.Module):
         hidden_dim = config["hidden_dim"]
         output_dim = config["output_dim"]
         n_layers = config["layers"]
+        self.user_vectors = None
 
-        self.input_fc = nn.Sequential(
-            nn.Linear(input_dim, input_dim * 2),
-            nn.Dropout(dropout),
-            nn.ReLU(),
-            nn.Linear(input_dim * 2, hidden_dim),
+        self.fc = nn.Sequential(
+            nn.Linear(input_dim, hidden_dim),
             nn.Dropout(dropout),
             nn.ReLU()
         ).double()
@@ -25,13 +23,10 @@ class LSTMWithSelfAttention(nn.Module):
         self.lstm = nn.LSTM(
             input_size=hidden_dim,
             hidden_size=hidden_dim,
-            num_layers=n_layers,
             batch_first=True,
-            dropout=dropout if n_layers > 1 else 0
+            num_layers=n_layers,
+            dropout=dropout
         ).double()
-
-        self.user_vectors = UsersVectors(user_dim=hidden_dim, n_layers=n_layers)
-        self.game_vectors = UsersVectors(user_dim=hidden_dim, n_layers=n_layers)
 
         self.self_attention = nn.MultiheadAttention(
             embed_dim=hidden_dim,
@@ -46,6 +41,9 @@ class LSTMWithSelfAttention(nn.Module):
             nn.LogSoftmax(dim=-1) if logsoftmax else nn.Identity()
         ).double()
 
+        self.user_vectors = UsersVectors(user_dim=hidden_dim, n_layers=n_layers)
+        self.game_vectors = UsersVectors(user_dim=hidden_dim, n_layers=n_layers)
+
     def init_game(self, batch_size=1):
         return torch.stack([self.game_vectors.init_user] * batch_size, dim=0)
 
@@ -53,47 +51,58 @@ class LSTMWithSelfAttention(nn.Module):
         return torch.stack([self.user_vectors.init_user] * batch_size, dim=0)
 
     def forward(self, vectors, **kwargs):
-        input_vec, game_vector, user_vector = (vectors['x'], vectors['game_vector'], vectors['user_vector'])
-        lstm_input = self.input_fc(input_vec)
+        x = vectors["x"]
+        user_vector = vectors["user_vector"]
+        game_vector = vectors["game_vector"]
+
+        transformer_input = self.fc(x)
+
+        output = []
+        for i in range(DATA_ROUNDS_PER_GAME):
+            current_time_input = transformer_input[:, :i+1].contiguous()
+            current_time_output, _ = self.self_attention(current_time_input, current_time_input, current_time_input)
+            current_time_output = current_time_output[:, -1, :]
+            output.append(current_time_output)
+
+        lstm_input = torch.stack(output, 1)
         lstm_shape = lstm_input.shape
         shape = user_vector.shape
         assert game_vector.shape == shape
+
         if len(lstm_shape) != len(shape):
             lstm_input = lstm_input.reshape((1,) * (len(shape) - 1) + lstm_input.shape)
+
         user_vector = user_vector.reshape(shape[:-1][::-1] + (shape[-1],))
         game_vector = game_vector.reshape(shape[:-1][::-1] + (shape[-1],))
-        lstm_output, (game_vec, user_vec) = self.lstm(lstm_input.contiguous(),
-                                                       (game_vector.contiguous(),
-                                                        user_vector.contiguous()))
-        user_vec = user_vec.reshape(shape)
-        game_vec = game_vec.reshape(shape)
 
-        outputs = []
-        for i in range(DATA_ROUNDS_PER_GAME):
-            current_time_input = lstm_output[:, :i+1].contiguous()
-            current_time_output, _ = self.self_attention(current_time_input, current_time_input, current_time_input)
-            current_time_output = current_time_output[:, -1, :]
-            outputs.append(current_time_output)
-        
-        output = torch.stack(outputs, 1)
-        output = self.output_fc(output)
+        lstm_output, (game_vector, user_vector) = self.lstm(lstm_input.contiguous(),
+                                                             (game_vector.contiguous(),
+                                                              user_vector.contiguous()))
+
+        user_vector = user_vector.reshape(shape)
+        game_vector = game_vector.reshape(shape)
+
+        output = self.output_fc(lstm_output)
 
         if self.training:
-            return {"output": output, "game_vector": game_vec, "user_vector": user_vec}
+            return {"output": output, "game_vector": game_vector, "user_vector": user_vector}
         else:
-            return {"output": output, "game_vector": game_vec.detach(), "user_vector": user_vec.detach()}
+            return {"output": output, "game_vector": game_vector.detach(), "user_vector": user_vector.detach()}
 
 
-class LSTMWithSelfAttentionEnv(environment.Environment):
+class TransformerLSTMWithSelfAttentionEnv(environment.Environment):
     def init_model_arc(self, config):
-        self.model = LSTMWithSelfAttention(config=config).double()
+        self.model = TransformerLSTMWithSelfAttention(config=config).double()
 
     def predict_proba(self, data, update_vectors: bool, vectors_in_input=False):
         if vectors_in_input:
             output = self.model(data)
         else:
-            raise NotImplementedError
+            output = self.model({**data, "user_vector": self.currentDM, "game_vector": self.currentGame})
         output["proba"] = torch.exp(output["output"].flatten())
+        if update_vectors:
+            self.currentDM = output["user_vector"]
+            self.currentGame = output["game_vector"]
         return output
 
     def init_user_vector(self):
