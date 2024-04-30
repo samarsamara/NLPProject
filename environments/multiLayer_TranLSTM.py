@@ -55,8 +55,6 @@ class multiLayer_TranLSTM(nn.Module):
                 output = []
                 for i in range(DATA_ROUNDS_PER_GAME):
                     x = transformer_input[:, :i+1].contiguous()
-                    if j == 1:
-                        print(x.shape)
                     time_output = self.transformer(x)[:, -1, :]
                     output.append(time_output)
                 lstm_input = torch.stack(output, 1)
@@ -70,10 +68,9 @@ class multiLayer_TranLSTM(nn.Module):
                 lstm_output, (game_vector, user_vector) = self.lstm(lstm_input.contiguous(),
                                                                          (game_vector.contiguous(),
                                                                         user_vector.contiguous()))
-                print(lstm_output.shape)
                 transformer_input = lstm_output
-            user_vector = user_vector.reshape(shape)
-            game_vector = game_vector.reshape(shape)
+                user_vector = user_vector.reshape(shape)
+                game_vector = game_vector.reshape(shape)
             output = self.output_fc(lstm_output)
             if self.training:
                 return {"output": output, "game_vector": game_vector, "user_vector": user_vector}
