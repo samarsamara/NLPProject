@@ -2,6 +2,7 @@ import utils
 import environments
 from environments.LSTMTransformer import LSTMTransformer_env
 from environments.TransformerLSTM import TransformerLSTM_env
+from environments.multiLayer_TranLSTM import multiLayer_TranLSTM_env
 from environments.arch1 import arch1_env
 from environments.hybridtuned import myhyprid_env
 from environments.arch2 import arch2_env
@@ -90,14 +91,15 @@ meta_features_map = {"features": {"EFs": {"FEATURES_PATH": config["SIMULATION_EF
                      "architecture": {"LSTM": {"use_user_vector": True},
                                       "transformer": {"use_user_vector": False},
                                       "LSTMTransformer": {"use_user_vector": True},
-                                     "TransformerLSTM": {"use_user_vector": True},
-                                     "arch1": {"use_user_vector": True},
-                                     "arch2": {"use_user_vector": True},
-                                     "arch3": {"use_user_vector": True},
-                                     "arch4": {"use_user_vector": True},
-                                     "arch5": {"use_user_vector": True},
-                                     "arch6": {"use_user_vector": False},
-                                     "hybrid":{"use_user_vector":True}}}
+                                      "TransformerLSTM": {"use_user_vector": True},
+                                      "multiLayer_TranLSTM": {"use_user_vector": True},
+                                      "arch1": {"use_user_vector": True},
+                                      "arch2": {"use_user_vector": True},
+                                      "arch3": {"use_user_vector": True},
+                                      "arch4": {"use_user_vector": True},
+                                      "arch5": {"use_user_vector": True},
+                                      "arch6": {"use_user_vector": False},
+                                      "hybrid":{"use_user_vector":True}}}
 for meta_feature, meta_feature_map in meta_features_map.items():
     if config[meta_feature] not in meta_feature_map.keys():
         print(config[meta_feature])
@@ -147,4 +149,6 @@ elif config["architecture"] == "arch5":
     env_model = arch5_env(env_name, config=config)
 elif config["architecture"] == "arch6":
     env_model = mytransformer_env(env_name, config=config)
+elif config["architecture"] == "multiLayer_TranLSTM":
+    env_model = multiLayer_TranLSTM_env(env_name, config=config)
     
