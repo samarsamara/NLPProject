@@ -60,17 +60,20 @@ class multiLayer_TranLSTM(nn.Module):
                 lstm_input = torch.stack(output, 1)
                 lstm_shape = lstm_input.shape
                 shape = user_vector.shape
+                print(shape)
                 assert game_vector.shape == shape
                 if len(lstm_shape) != len(shape):
                     lstm_input = lstm_input.reshape((1,) * (len(shape) - 1) + lstm_input.shape)
                 user_vector = user_vector.reshape(shape[:-1][::-1] + (shape[-1],))
                 game_vector = game_vector.reshape(shape[:-1][::-1] + (shape[-1],))
+                print(game_vector.shape)
                 lstm_output, (game_vector, user_vector) = self.lstm(lstm_input.contiguous(),
                                                                          (game_vector.contiguous(),
                                                                         user_vector.contiguous()))
                 transformer_input = lstm_output
                 user_vector = user_vector.reshape(shape)
                 game_vector = game_vector.reshape(shape)
+                print(game_vector.shape)
             output = self.output_fc(lstm_output)
             if self.training:
                 return {"output": output, "game_vector": game_vector, "user_vector": user_vector}
