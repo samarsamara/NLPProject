@@ -35,7 +35,7 @@ class multiLayer_TranLSTM(nn.Module):
             seq += [nn.LogSoftmax(dim=-1)]
 
         self.output_fc = nn.Sequential(*seq)
-
+            
         self.user_vectors = UsersVectors(user_dim=hidden_dim, n_layers=1)
         self.game_vectors = UsersVectors(user_dim=hidden_dim, n_layers=1)
 
@@ -70,6 +70,9 @@ class multiLayer_TranLSTM(nn.Module):
                                                                          (game_vector.contiguous(),
                                                                         user_vector.contiguous()))
                 transformer_input = lstm_output
+            if n_layers > 1:
+                user_vector = user_vector.squeeze()
+                game_vector = game_vector.squeeze()
             user_vector = user_vector.reshape(shape)
             game_vector = game_vector.reshape(shape)
             output = self.output_fc(lstm_output)
