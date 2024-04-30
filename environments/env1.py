@@ -68,12 +68,15 @@ class LSTMWithSelfAttention(nn.Module):
         user_vec = user_vec.reshape(shape)
         game_vec = game_vec.reshape(shape)
 
-        # Apply self-attention
-        lstm_output = lstm_output.transpose(0, 1)  # Change to shape (seq_len, batch_size, hidden_dim)
-        lstm_output, _ = self.self_attention(lstm_output, lstm_output, lstm_output)
-        lstm_output = lstm_output.transpose(0, 1)  # Change back to shape (batch_size, seq_len, hidden_dim)
-
-        output = self.output_fc(lstm_output)
+        outputs = []
+        for i in range(DATA_ROUNDS_PER_GAME):
+            current_time_input = lstm_output[:, :i+1].contiguous()
+            current_time_output, _ = self.self_attention(current_time_input, current_time_input, current_time_input)
+            current_time_output = current_time_output[:, -1, :]
+            outputs.append(current_time_output)
+        
+        output = torch.stack(outputs, 1)
+        output = self.output_fc(output)
 
         if self.training:
             return {"output": output, "game_vector": game_vec, "user_vector": user_vec}
