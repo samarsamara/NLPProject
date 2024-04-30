@@ -72,7 +72,7 @@ class multiLayer_TranLSTM(nn.Module):
                                                                          (game_vector.contiguous(),
                                                                         user_vector.contiguous()))
                 transformer_input = lstm_output
-                 print(user_vector.shape)
+                print(user_vector.shape)
             # if self.n_layers > 1:
             #     print(user_vector.shape)
             #     user_vector = user_vector.squeeze()
