@@ -68,7 +68,9 @@ class LSTMTransformer(nn.Module):
         assert game_vector.shape == shape
         if len(lstm_shape) != len(shape):
             lstm_input = lstm_input.reshape((1,) * (len(shape) - 1) + lstm_input.shape)
+        print(user_vector)
         user_vector = user_vector.reshape(shape[:-1][::-1] + (shape[-1],))
+        print(user_vector)
         game_vector = game_vector.reshape(shape[:-1][::-1] + (shape[-1],))
         lstm_output, (game_vec, user_vec) = self.lstm(lstm_input.contiguous(),
                                                                  (game_vector.contiguous(),
