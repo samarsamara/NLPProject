@@ -52,7 +52,7 @@ class multiLayer_TranLSTM(nn.Module):
             game_vector = vectors["game_vector"]
             transformer_input = self.fc(x)
             lstm_output = None
-            shape = user_vector.shape
+            shape = user_vector[j].shape
 
             for j in range(self.n_layers):
                 output = []
@@ -62,25 +62,20 @@ class multiLayer_TranLSTM(nn.Module):
                     output.append(time_output)
                 lstm_input = torch.stack(output, 1)
                 lstm_shape = lstm_input.shape
-                assert game_vector.shape ==user_vector.shape
+                assert game_vector[j].shape ==user_vector[j].shape
                 if len(lstm_shape) != len(shape):
                     lstm_input = lstm_input.reshape((1,) * (len(shape) - 1) + lstm_input.shape)
                 if j == 0:
-                    user_vector = user_vector.reshape(shape[:-1][::-1] + (shape[-1],))
+                    user_vector[j] = user_vector[j].reshape(shape[:-1][::-1] + (shape[-1],))
                     print(user_vector.shape)
-                    game_vector = game_vector.reshape(shape[:-1][::-1] + (shape[-1],))
+                    game_vector[j] = game_vector[j].reshape(shape[:-1][::-1] + (shape[-1],))
                 lstm_output, (game_vector[j], user_vector[j]) = self.lstm(lstm_input.contiguous(),
                                                                          (game_vector[j].contiguous(),
                                                                         user_vector[j].contiguous()))
                 transformer_input = lstm_output
-                print(user_vector.shape)
-            # if self.n_layers > 1:
-            #     print(user_vector.shape)
-            #     user_vector = user_vector.squeeze()
-            #     print(user_vector.shape)
-            #     game_vector = game_vector.squeeze()
-            user_vector = user_vector.reshape(shape)
-            game_vector = game_vector.reshape(shape)
+                user_vector[j] = user_vector[j].reshape(shape)
+                game_vector[j] = game_vector[j].reshape(shape)
+                
             output = self.output_fc(lstm_output)
             if self.training:
                 return {"output": output, "game_vector": game_vector, "user_vector": user_vector}
