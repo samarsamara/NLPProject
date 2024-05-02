@@ -52,7 +52,7 @@ class multiLayer_TranLSTM(nn.Module):
             game_vector = vectors["game_vector"]
             transformer_input = self.fc(x)
             lstm_output = None
-            shape = user_vector[:, 0, :].unsqueeze(1)
+            shape = user_vector[:, 0, :].unsqueeze(1).shape
 
             for j in range(self.n_layers):
                 output = []
