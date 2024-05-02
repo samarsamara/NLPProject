@@ -36,8 +36,8 @@ class multiLayer_TranLSTM(nn.Module):
 
         self.output_fc = nn.Sequential(*seq)
             
-        self.user_vectors = UsersVectors(user_dim=hidden_dim, n_layers=1)
-        self.game_vectors = UsersVectors(user_dim=hidden_dim, n_layers=1)
+        self.user_vectors = UsersVectors(user_dim=hidden_dim, n_layers=2)
+        self.game_vectors = UsersVectors(user_dim=hidden_dim, n_layers=2)
 
     def init_game(self, batch_size=1):
         return torch.stack([self.game_vectors.init_user] * batch_size, dim=0)
@@ -69,9 +69,9 @@ class multiLayer_TranLSTM(nn.Module):
                     user_vector = user_vector.reshape(shape[:-1][::-1] + (shape[-1],))
                     print(user_vector.shape)
                     game_vector = game_vector.reshape(shape[:-1][::-1] + (shape[-1],))
-                lstm_output, (game_vector, user_vector) = self.lstm(lstm_input.contiguous(),
-                                                                         (game_vector.contiguous(),
-                                                                        user_vector.contiguous()))
+                lstm_output, (game_vector[j], user_vector[j]) = self.lstm(lstm_input.contiguous(),
+                                                                         (game_vector[j].contiguous(),
+                                                                        user_vector[j].contiguous()))
                 transformer_input = lstm_output
                 print(user_vector.shape)
             # if self.n_layers > 1:
