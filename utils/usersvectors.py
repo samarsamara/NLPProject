@@ -17,9 +17,7 @@ class UsersVectors:
     def __getitem__(self, key):
         if isinstance(key, int):
             return self.users[key] if key in self.users.keys() else self.get_init_vector()
-        else:
-            print(key)
-            print(self.users)     
+        else:  
             return torch.stack([self.users[k] if k in self.users.keys() else self.get_init_vector() for k in key])
 
     def __setitem__(self, key, new_value):
