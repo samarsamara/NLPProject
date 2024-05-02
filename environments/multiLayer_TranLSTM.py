@@ -48,7 +48,6 @@ class multiLayer_TranLSTM(nn.Module):
     def forward(self, vectors, **kwargs):
             x = vectors["x"]
             user_vector = vectors["user_vector"]
-            print(user_vector.shape)
             game_vector = vectors["game_vector"]
             transformer_input = self.fc(x)
             lstm_output = None
@@ -72,7 +71,6 @@ class multiLayer_TranLSTM(nn.Module):
                 game_vector_j = game_vector_j.unsqueeze(1)
                 user_vector_j = user_vector_j.permute(1, 0, 2) 
                 game_vector_j = game_vector_j.permute(1, 0, 2) 
-                print(lstm_input.shape)
                 lstm_output, (user_vector_j, game_vector_j) = self.lstm(lstm_input.contiguous(),
                                                                          (user_vector_j.contiguous(),
                                                                         game_vector_j.contiguous()))
