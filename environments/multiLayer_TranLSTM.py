@@ -69,6 +69,9 @@ class multiLayer_TranLSTM(nn.Module):
                     user_vector[j] = user_vector[j].reshape(shape[:-1][::-1] + (shape[-1],))
                     print(user_vector.shape)
                     game_vector[j] = game_vector[j].reshape(shape[:-1][::-1] + (shape[-1],))
+                print(lstm_input.shape)
+                print(game_vector[j].shape)
+                print(user_vector[j].shape)
                 lstm_output, (game_vector[j], user_vector[j]) = self.lstm(lstm_input.contiguous(),
                                                                          (game_vector[j].contiguous(),
                                                                         user_vector[j].contiguous()))
