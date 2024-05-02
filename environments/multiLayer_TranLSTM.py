@@ -70,8 +70,8 @@ class multiLayer_TranLSTM(nn.Module):
                 user_vector_j = user_vector_j.unsqueeze(1)
                 game_vector_j = game_vector[:, j, :]
                 game_vector_j = game_vector_j.unsqueeze(1)
-                user_vector_j = user_vector_j.reshape(shape[:-1][::-1] + (shape[-1],))
-                game_vector_j = game_vector_j.reshape(shape[:-1][::-1] + (shape[-1],))
+                user_vector_j = user_vector_j.permute(1, 0, 2) 
+                game_vector_j = game_vector_j.permute(1, 0, 2) 
                 print(lstm_input.shape)
                 lstm_output, (user_vector_j, game_vector_j) = self.lstm(lstm_input.contiguous(),
                                                                          (user_vector_j.contiguous(),
@@ -79,8 +79,8 @@ class multiLayer_TranLSTM(nn.Module):
                 transformer_input = lstm_output
                 user_vector[:, j, :] = user_vector_j.squeeze(1) 
                 game_vector[:, j, :] = game_vector_j.squeeze(1) 
-                # user_vector = user_vector.reshape(shape)
-                # game_vector = game_vector.reshape(shape)
+                user_vector_j = user_vector_j.reshape(shape)
+                game_vector_j = game_vector_j.reshape(shape)
                 
             output = self.output_fc(lstm_output)
             if self.training:
