@@ -65,15 +65,20 @@ class multiLayer_TranLSTM(nn.Module):
                 assert game_vector[j].shape ==user_vector[j].shape
                 if len(lstm_shape) != len(user_vector.shape):
                     lstm_input = lstm_input.reshape((1,) * (len(shape) - 1) + lstm_input.shape)
-                # user_vector = user_vector.reshape(shape[:-1][::-1] + (shape[-1],))
-                # game_vector = game_vector.reshape(shape[:-1][::-1] + (shape[-1],))
+
+                user_vector_j = user_vector[:, j, :]
+                user_vector_j = user_vector_j.unsqueeze(1)
+                game_vector_j = game_vector[:, j, :]
+                game_vector_j = game_vector_j.unsqueeze(1)
                 print(lstm_input.shape)
-                lstm_output, (game_vector, user_vector) = self.lstm(lstm_input.contiguous(),
-                                                                         (game_vector.contiguous(),
-                                                                        user_vector.contiguous()))
+                lstm_output, (user_vector_j, game_vector_j) = self.lstm(lstm_input.contiguous(),
+                                                                         (user_vector_j.contiguous(),
+                                                                        game_vector_j.contiguous()))
                 transformer_input = lstm_output
-                user_vector = user_vector.reshape(shape)
-                game_vector = game_vector.reshape(shape)
+                user_vector[:, j, :] = user_vector_j.squeeze(1) 
+                game_vector[:, j, :] = game_vector_j.squeeze(1) 
+                # user_vector = user_vector.reshape(shape)
+                # game_vector = game_vector.reshape(shape)
                 
             output = self.output_fc(lstm_output)
             if self.training:
