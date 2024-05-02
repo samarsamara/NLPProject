@@ -52,7 +52,6 @@ class multiLayer_TranLSTM(nn.Module):
             transformer_input = self.fc(x)
             lstm_output = None
             shape = user_vector[:, 0, :].unsqueeze(1).shape
-
             for j in range(self.n_layers):
                 output = []
                 for i in range(DATA_ROUNDS_PER_GAME):
@@ -61,24 +60,28 @@ class multiLayer_TranLSTM(nn.Module):
                     output.append(time_output)
                 lstm_input = torch.stack(output, 1)
                 lstm_shape = lstm_input.shape
-                assert game_vector[:, j, :].unsqueeze(1).shape == user_vector[:, j, :].unsqueeze(1).shape
-                if len(lstm_shape) != len(user_vector.shape):
-                    lstm_input = lstm_input.reshape((1,) * (len(user_vector.shape) - 1) + lstm_input.shape)
+                assert game_vector[j].shape == user_vector[j].shape
+            
+                # Reshape tensors out of place
+                lstm_input = lstm_input.reshape((1,) * (len(shape) - 1) + lstm_input.shape)
+            
+                if j == 0:
+                    user_vector_j = user_vector[j].reshape(shape[:-1][::-1] + (shape[-1],)).clone()
+                    game_vector_j = game_vector[j].reshape(shape[:-1][::-1] + (shape[-1],)).clone()
+                    user_vector_j = user_vector_j.permute(1, 0, 2).clone() 
+                    game_vector_j = game_vector_j.permute(1, 0, 2).clone() 
+                else:
+                    user_vector_j = user_vector[j].clone()
+                    game_vector_j = game_vector[j].clone()
 
-                user_vector_j = user_vector[:, j, :]
-                user_vector_j = user_vector_j.unsqueeze(1)
-                game_vector_j = game_vector[:, j, :]
-                game_vector_j = game_vector_j.unsqueeze(1)
-                user_vector_j = user_vector_j.permute(1, 0, 2) 
-                game_vector_j = game_vector_j.permute(1, 0, 2) 
-                lstm_output, (user_vector_j, game_vector_j) = self.lstm(lstm_input.contiguous(),
-                                                                         (user_vector_j.contiguous(),
-                                                                        game_vector_j.contiguous()))
-                transformer_input = lstm_output
-                user_vector[:, j, :] = user_vector_j.squeeze(1) 
-                game_vector[:, j, :] = game_vector_j.squeeze(1) 
-                user_vector_j = user_vector_j.reshape(shape)
-                game_vector_j = game_vector_j.reshape(shape)
+                lstm_output, (game_vector[j], user_vector[j]) = self.lstm(lstm_input.contiguous(),
+                                                                  (game_vector_j.contiguous(),
+                                                                   user_vector_j.contiguous()))
+    
+                # Reshape tensors back to original shape
+                user_vector[j] = user_vector[j].reshape(shape).clone()
+                game_vector[j] = game_vector[j].reshape(shape).clone()
+  
                 
             output = self.output_fc(lstm_output)
             if self.training:
