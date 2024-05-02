@@ -63,7 +63,7 @@ class multiLayer_TranLSTM(nn.Module):
                 lstm_input = torch.stack(output, 1)
                 lstm_shape = lstm_input.shape
                 assert game_vector[j].shape ==user_vector[j].shape
-                if len(lstm_shape) != len(shape):
+                if len(lstm_shape) != len(user_vector.shape):
                     lstm_input = lstm_input.reshape((1,) * (len(shape) - 1) + lstm_input.shape)
                 if j == 0:
                     user_vector[j] = user_vector[j].reshape(shape[:-1][::-1] + (shape[-1],))
