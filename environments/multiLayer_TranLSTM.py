@@ -69,7 +69,7 @@ class multiLayer_TranLSTM(nn.Module):
                 assert game_vector[:, j, :].unsqueeze(1).shape == user_vector[:, j, :].unsqueeze(1).shape
                 if len(lstm_shape) != len(user_vector.shape):
                     lstm_input = lstm_input.reshape((1,) * (len(user_vector.shape) - 1) + lstm_input.shape)
-                if self.n_layer > 1:
+                if self.n_layers > 1:
                     user_vector_j = user_vector[:, j, :]
                     user_vector_j = user_vector_j.unsqueeze(1)
                     game_vector_j = game_vector[:, j, :]
@@ -83,7 +83,7 @@ class multiLayer_TranLSTM(nn.Module):
                                                                          (user_vector_j.contiguous(),
                                                                         game_vector_j.contiguous()))
                 transformer_input = lstm_output
-                if self.n_layer > 1 :
+                if self.n_layers > 1 :
                     user_vector[:, j, :] = user_vector_j.squeeze(1) 
                     game_vector[:, j, :] = game_vector_j.squeeze(1) 
                     user_vector_j = user_vector_j.reshape(shape).clone()
