@@ -36,8 +36,8 @@ class multiLayer_TranLSTM(nn.Module):
 
         self.output_fc = nn.Sequential(*seq)
             
-        self.user_vectors = UsersVectors(user_dim=hidden_dim, n_layers=2)
-        self.game_vectors = UsersVectors(user_dim=hidden_dim, n_layers=2)
+        self.user_vectors = UsersVectors(user_dim=hidden_dim, n_layers=self.n_layers)
+        self.game_vectors = UsersVectors(user_dim=hidden_dim, n_layers=self.n_layers)
 
     def init_game(self, batch_size=1):
         return torch.stack([self.game_vectors.init_user] * batch_size, dim=0)
