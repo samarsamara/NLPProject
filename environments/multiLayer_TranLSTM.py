@@ -53,11 +53,7 @@ class multiLayer_TranLSTM(nn.Module):
             print("transformer_input_layer1:")
             print(transformer_input.shape)
             lstm_output = None
-            if self.n_layers > 1: 
-                shape = user_vector[:, 0, :].unsqueeze(1).shape
-            else :
-                shape = user_vector.shape
-
+            shape = user_vector[:, 0, :].unsqueeze(1).shape
             for j in range(self.n_layers):
                 output = []
                 for i in range(DATA_ROUNDS_PER_GAME):
