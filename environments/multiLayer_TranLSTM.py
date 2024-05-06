@@ -88,7 +88,7 @@ class multiLayer_TranLSTM(nn.Module):
                 
             output = self.output_fc(lstm_output)
             print("final input")
-            print(output.shape)
+            print(output)
             if self.training:
                 return {"output": output, "game_vector": game_vector, "user_vector": user_vector}
             else:
