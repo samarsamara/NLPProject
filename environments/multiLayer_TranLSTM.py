@@ -87,6 +87,8 @@ class multiLayer_TranLSTM(nn.Module):
                 game_vector_j = game_vector_j.reshape(shape).clone()
                 
             output = self.output_fc(lstm_output)
+            print("final input")
+            print(output.shape)
             if self.training:
                 return {"output": output, "game_vector": game_vector, "user_vector": user_vector}
             else:
