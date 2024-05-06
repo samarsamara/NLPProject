@@ -67,7 +67,7 @@ class multiLayer_TranLSTM(nn.Module):
            
                 user_vector_j = user_vector[:, j, :]
                 user_vector_j = user_vector_j.unsqueeze(1)
-                print(user_vector_j)
+                print(user_vector_j.shape)
                 game_vector_j = game_vector[:, j, :]
                 game_vector_j = game_vector_j.unsqueeze(1)
                 user_vector_j = user_vector_j.permute(1, 0, 2).clone()
