@@ -50,6 +50,8 @@ class multiLayer_TranLSTM(nn.Module):
             user_vector = vectors["user_vector"]
             game_vector = vectors["game_vector"]
             transformer_input = self.fc(x)
+            print("transformer_input_layer1:")
+            print(transformer_input.shape)
             lstm_output = None
             shape = user_vector[:, 0, :].unsqueeze(1).shape
 
@@ -61,6 +63,8 @@ class multiLayer_TranLSTM(nn.Module):
                     output.append(time_output)
                 lstm_input = torch.stack(output, 1)
                 lstm_shape = lstm_input.shape
+                print("lstm_layer:")
+                print(lstm_output.shape)
                 assert game_vector[:, j, :].unsqueeze(1).shape == user_vector[:, j, :].unsqueeze(1).shape
                 if len(lstm_shape) != len(user_vector.shape):
                     lstm_input = lstm_input.reshape((1,) * (len(user_vector.shape) - 1) + lstm_input.shape)
@@ -74,6 +78,8 @@ class multiLayer_TranLSTM(nn.Module):
                 lstm_output, (user_vector_j, game_vector_j) = self.lstm(lstm_input.contiguous(),
                                                                          (user_vector_j.contiguous(),
                                                                         game_vector_j.contiguous()))
+                print("transformer_input_layer2:")
+                print(lstm_output.shape)
                 transformer_input = lstm_output
                 user_vector[:, j, :] = user_vector_j.squeeze(1) 
                 game_vector[:, j, :] = game_vector_j.squeeze(1) 
