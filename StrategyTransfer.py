@@ -44,7 +44,7 @@ parser.add_argument('--total_epochs', type=int, default=25, help='Number of epoc
 parser.add_argument('--features', type=str, default="EFs", help='Input features')
 
 # Architecture Features
-parser.add_argument('--architecture', type=str, default="LSTM", help='Model architecture')
+parser.add_argument('--architecture', type=str, default="multiLayer_TranLSTM", help='Model architecture')
 parser.add_argument('--hidden_dim', type=int, default=35, help='Hidden dimensions')
 parser.add_argument('--layers', type=int, default=2, help='Number of layers')
 parser.add_argument('--transformer_nheads', type=int, default=5, help='Transformer heads')
