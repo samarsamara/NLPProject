@@ -31,7 +31,7 @@ def str2bool(v):
         raise argparse.ArgumentTypeError('Boolean value expected.')
 
 # General Features
-parser.add_argument('--ENV_HPT_mode', type=str2bool, default=False, help='Enable/disable HPT mode')
+parser.add_argument('--ENV_HPT_mode', type=str2bool, default=True, help='Enable/disable HPT mode')
 parser.add_argument('--seed', type=int, default=42, help='Random seed')
 parser.add_argument('--task', choices=["off_policy", "on_policy"], default="off_policy", help='Task')
 parser.add_argument('--ENV_LEARNING_RATE', type=float, default=0.0008, help='Learning rate')
@@ -45,9 +45,9 @@ parser.add_argument('--features', type=str, default="EFs", help='Input features'
 
 # Architecture Features
 parser.add_argument('--architecture', type=str, default="LSTM", help='Model architecture')
-parser.add_argument('--hidden_dim', type=int, default=32, help='Hidden dimensions')
+parser.add_argument('--hidden_dim', type=int, default=35, help='Hidden dimensions')
 parser.add_argument('--layers', type=int, default=2, help='Number of layers')
-parser.add_argument('--transformer_nheads', type=int, default=4, help='Transformer heads')
+parser.add_argument('--transformer_nheads', type=int, default=5, help='Transformer heads')
 parser.add_argument('--dropout', type=float, default=0, help='Dropout rate')
 
 # Human data
