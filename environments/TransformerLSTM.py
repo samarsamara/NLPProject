@@ -22,7 +22,7 @@ class TransformerLSTM(nn.Module):
                                 ).double()
 
         self.encoder_layer = nn.TransformerEncoderLayer(d_model=hidden_dim, nhead=nhead, dropout=dropout)
-        self.transformer = nn.TransformerEncoder(self.encoder_layer, num_layers=n_layers).double()
+        self.transformer = nn.TransformerEncoder(self.encoder_layer, num_layers=1).double()
         self.lstm = nn.LSTM(input_size=hidden_dim,
                                  hidden_size=hidden_dim,
                                  batch_first=True,
