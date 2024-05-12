@@ -124,7 +124,7 @@ class Environment:
         self.model.to(device)
         optimizer = torch.optim.Adam([p for p in chain(self.model.parameters()) if p.requires_grad],
                                      lr=self.env_learning_rate)
-        scheduler = StepLR(optimizer, step_size=5, gamma=0.98) 
+        # scheduler = StepLR(optimizer, step_size=5, gamma=0.98) 
         self.set_train_mode()
         metrics = Metrics("ENV")
         for epoch in range(self.config["total_epochs"]):
@@ -238,7 +238,7 @@ class Environment:
                         metrics.write(prefix+"accuracy_per_mean_user_and_bot", accuracy_per_mean_user_and_bot)
                         print(prefix+"accuracy_per_mean_user_and_bot: ", accuracy_per_mean_user_and_bot)
                 wandb.log(metrics.all)
-            scheduler.step()    
+            # scheduler.step()    
             metrics.next_epoch()
         self.model.to("cpu")
         self.set_eval_mode()
