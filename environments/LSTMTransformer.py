@@ -81,12 +81,8 @@ class LSTMTransformer(nn.Module):
             time_output = self.transformer_encoder(lstm_output[:, :i+1].contiguous())[:, -1, :]
             output.append(time_output)
         output = torch.stack(output, 1)
-        output = self.main_task_classifier(output)
-
-        # Concatenation for Transformer input
-        # combined_input = torch.cat([lstm_output, game_vector, user_vector], dim=1)
-        transformer_out = self.transformer_encoder(lstm_output)
-        output = self.output_fc(transformer_out)
+        output = self.output_fc(output)
+        
         if self.training:
             return {"output": output, "game_vector": game_vec, "user_vector": user_vec}
         else:
