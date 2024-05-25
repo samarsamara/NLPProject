@@ -1,6 +1,6 @@
 import wandb
-YOUR_WANDB_USERNAME = "samar2499"
-project = "Strategy_Transfer_TACL_samar2499"
+YOUR_WANDB_USERNAME = "rwandb"
+project = "Strategy_Transfer_TACL"
 
 command = [
         "${ENVIRONMENT_VARIABLE}",
@@ -11,7 +11,7 @@ command = [
     ]
 
 sweep_config = {
-    "name": "LSTMTransformer: SimFactor=0/4 for any features representation",
+    "name": "multiLayer_TranLSTM: learning_rate",
     "method": "grid",
     "metric": {
         "goal": "maximize",
@@ -19,11 +19,8 @@ sweep_config = {
     },
     "parameters": {
         "ENV_HPT_mode": {"values": [True]},
-        "architecture": {"values": ["LSTMTranformer"]},
-        "seed": {"values": list(range(1, 6))},
-        "online_simulation_factor": {"values": [0, 4]},
-        "features": {"values": ["EFs", "GPT4", "BERT"]},
-        "ENV_LEARNING_RATE":{"values":[0.001,0.002,0.0025,0.005]}   
+        "architecture": {"values": ["multiLayer_TranLSTM"]},
+        "ENV_LEARNING_RATE":{"values":[0.0007,0.00075,0.000775,0.0008,0.000825,00085]}   
     },
     "command": command
 }
