@@ -31,7 +31,7 @@ def str2bool(v):
         raise argparse.ArgumentTypeError('Boolean value expected.')
 
 # General Features
-parser.add_argument('--ENV_HPT_mode', type=str2bool, default=True, help='Enable/disable HPT mode')
+parser.add_argument('--ENV_HPT_mode', type=str2bool, default=False, help='Enable/disable HPT mode')
 parser.add_argument('--seed', type=int, default=42, help='Random seed')
 parser.add_argument('--task', choices=["off_policy", "on_policy"], default="off_policy", help='Task')
 parser.add_argument('--ENV_LEARNING_RATE', type=float, default=0.00085, help='Learning rate')
