@@ -38,7 +38,7 @@ parser.add_argument('--ENV_LEARNING_RATE', type=float, default=0.00085, help='Le
 parser.add_argument('--loss_weight_type', type=str, default="None", help='Loss weight type')
 parser.add_argument('--save_artifacts', type=str2bool, default=True, help='Save artifacts flag')
 parser.add_argument('--strategies', default=None, help='Which strategies are include the training data')
-parser.add_argument('--total_epochs', type=int, default=25, help='Number of epochs during training')
+parser.add_argument('--total_epochs', type=int, default=17, help='Number of epochs during training')
 
 # Input Features
 parser.add_argument('--features', type=str, default="EFs", help='Input features')
