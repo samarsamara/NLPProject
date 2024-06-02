@@ -93,7 +93,7 @@ meta_features_map = {"features": {"EFs": {"FEATURES_PATH": config["SIMULATION_EF
                                       "LSTMTransformer": {"use_user_vector": True},
                                       "TransformerLSTM": {"use_user_vector": True},
                                       "multiLayer_TranLSTM": {"use_user_vector": True},
-                                      "arch1": {"use_user_vector": True},
+                                      "two_layers_TranLstm": {"use_user_vector": True},
                                       "arch2": {"use_user_vector": True},
                                       "arch3": {"use_user_vector": True},
                                       "arch4": {"use_user_vector": True},
@@ -135,8 +135,8 @@ elif config["architecture"] == "LSTMTransformer":
     env_model = LSTMTransformer_env(env_name, config=config)
 elif config["architecture"] == "TransformerLSTM":
     env_model = TransformerLSTM_env(env_name, config=config)
-elif config["architecture"] == "arch1":
-    env_model = arch1_env(env_name, config=config)
+elif config["architecture"] == "two_layers_TranLstm":
+    env_model = two_layers_TranLstm_env(env_name, config=config)
 elif config["architecture"] == "arch2":
     env_model = arch2_env(env_name, config=config)
 elif config["architecture"] == "hybrid":
