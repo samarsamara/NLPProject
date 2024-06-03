@@ -1,6 +1,7 @@
 import utils
 import environments
 from environments.LSTMTransformer import LSTMTransformer_env
+from environments.two_layers_TranLstm import two_layers_TranLstm_env
 from environments.TransformerLSTM import TransformerLSTM_env
 from environments.multiLayer_TranLSTM import multiLayer_TranLSTM_env
 from environments.arch1 import arch1_env
