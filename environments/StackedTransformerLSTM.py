@@ -5,7 +5,7 @@ from SpecialLSTM import SpecialLSTM
 from consts import *
 from utils.usersvectors import UsersVectors
 
-class two_layers_TranLstm(nn.Module):
+class StackedTransformerLSTM(nn.Module):
     def __init__(self, config,logsoftmax = True):
         super().__init__()
         input_dim = config["input_dim"]
@@ -85,9 +85,9 @@ class two_layers_TranLstm(nn.Module):
                 return {"output": output, "game_vector": game_vector.detach(), "user_vector": user_vector.detach()}
 
 
-class two_layers_TranLstm_env(environment.Environment):
+class StackedTransformerLSTM_env(environment.Environment):
     def init_model_arc(self, config):
-        self.model = two_layers_TranLstm(config=config).double()
+        self.model = StackedTransformerLSTM(config=config).double()
 
     def predict_proba(self, data, update_vectors: bool, vectors_in_input=False):
         if vectors_in_input:
