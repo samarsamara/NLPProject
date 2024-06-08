@@ -52,7 +52,7 @@ class multiLayer_TranLSTM(nn.Module):
             transformer_input = self.fc(x)
             lstm_output = None
             shape = user_vector[:, 0, :].unsqueeze(1).shape
-            for j in range(2):
+            for j in range(1):
                 output = []
                 for i in range(DATA_ROUNDS_PER_GAME):
                     x = transformer_input[:, :i+1].contiguous()
