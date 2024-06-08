@@ -1,9 +1,8 @@
 import utils
 import environments
 from environments.LSTMTransformer import LSTMTransformer_env
-from environments.two_layers_TranLstm import two_layers_TranLstm_env
+from environments.StackedTransformerLSTM import StackedTransformerLSTM_env
 from environments.TransformerLSTM import TransformerLSTM_env
-from environments.multiLayer_TranLSTM import multiLayer_TranLSTM_env
 from consts import *
 from utils.functions import *
 import wandb
@@ -23,19 +22,19 @@ def str2bool(v):
 
 # General Features
 parser.add_argument('--ENV_HPT_mode', type=str2bool, default=False, help='Enable/disable HPT mode')
-parser.add_argument('--seed', type=int, default=42, help='Random seed')
+parser.add_argument('--seed', type=int, default=122, help='Random seed')
 parser.add_argument('--task', choices=["off_policy", "on_policy"], default="off_policy", help='Task')
 parser.add_argument('--ENV_LEARNING_RATE', type=float, default=0.00085, help='Learning rate')
 parser.add_argument('--loss_weight_type', type=str, default="None", help='Loss weight type')
 parser.add_argument('--save_artifacts', type=str2bool, default=True, help='Save artifacts flag')
 parser.add_argument('--strategies', default=None, help='Which strategies are include the training data')
-parser.add_argument('--total_epochs', type=int, default=25, help='Number of epochs during training')
+parser.add_argument('--total_epochs', type=int, default=17, help='Number of epochs during training')
 
 # Input Features
 parser.add_argument('--features', type=str, default="EFs", help='Input features')
 
 # Architecture Features
-parser.add_argument('--architecture', type=str, default="multiLayer_TranLSTM", help='Model architecture')
+parser.add_argument('--architecture', type=str, default="TransformerLSTM", help='Model architecture')
 parser.add_argument('--hidden_dim', type=int, default=35, help='Hidden dimensions')
 parser.add_argument('--layers', type=int, default=2, help='Number of layers')
 parser.add_argument('--transformer_nheads', type=int, default=5, help='Transformer heads')
@@ -83,8 +82,7 @@ meta_features_map = {"features": {"EFs": {"FEATURES_PATH": config["SIMULATION_EF
                                       "transformer": {"use_user_vector": False},
                                       "LSTMTransformer": {"use_user_vector": True},
                                       "TransformerLSTM": {"use_user_vector": True},
-                                      "multiLayer_TranLSTM": {"use_user_vector": True},
-                                      "two_layers_TranLstm": {"use_user_vector": True},}}
+                                      "StackedTransformerLSTM": {"use_user_vector": True},}}
 for meta_feature, meta_feature_map in meta_features_map.items():
     if config[meta_feature] not in meta_feature_map.keys():
         print(config[meta_feature])
@@ -120,8 +118,6 @@ elif config["architecture"] == "LSTMTransformer":
     env_model = LSTMTransformer_env(env_name, config=config)
 elif config["architecture"] == "TransformerLSTM":
     env_model = TransformerLSTM_env(env_name, config=config)
-elif config["architecture"] == "two_layers_TranLstm":
-    env_model = two_layers_TranLstm_env(env_name, config=config)
-elif config["architecture"] == "multiLayer_TranLSTM":
-    env_model = multiLayer_TranLSTM_env(env_name, config=config)
-    
+elif config["architecture"] == "StackedTransformerLSTM":
+    env_model = StackedTransformerLSTM_env(env_name, config=config)
+
