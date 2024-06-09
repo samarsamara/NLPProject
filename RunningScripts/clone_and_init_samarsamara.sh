@@ -9,13 +9,13 @@ cd ..
 # More runs appear in your report:
 cd RunningScripts
 echo "Running the sweep1 script..."
-python sweep_1_samarsamara.py
+python sweep1_samarsamara.py
 cd..
 cd RunningScripts
 echo "Running the sweep2 script..."
-python sweep_2_samarsamara.py
+python sweep2_samarsamara.py
 cd..
 cd RunningScripts
 echo "Running the sweep3 script..."
-python sweep_3_samarsamara.py
+python sweep3_samarsamara.py
 cd..
