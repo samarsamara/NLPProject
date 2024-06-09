@@ -20,6 +20,7 @@ sweep_config = {
     "parameters": {
         "ENV_HPT_mode": {"values": [False]},
         "architecture": {"values": ["TransformerLSTM"]},
+        "ENV_LEARNING_RATE":{"values":[0.00085]} 
     },
     "command": command
 }
