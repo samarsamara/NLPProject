@@ -18,7 +18,7 @@ sweep_config = {
         "name": "AUC.test.max"
     },
     "parameters": {
-        "ENV_HPT_mode": {"values": [True]},
+        "ENV_HPT_mode": {"values": [False]},
         "architecture": {"values": ["TransformerLSTM"]},
         "seed":{"values":[40,42,58,60,72,90,80,70,72,84,120,92,99,98,100,102,104,105,106,108,110,112,114,116,118,126,122,124,128,130,132,134,136,138,140,142,144,146,148,150,152,154,156,158,160,162,164,168,170,172,174]}   
     },
