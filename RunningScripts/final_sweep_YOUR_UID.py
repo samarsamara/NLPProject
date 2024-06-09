@@ -11,7 +11,7 @@ command = [
     ]
 
 sweep_config = {
-    "name": "multiLayer_TranLSTM: learning_rate",
+    "name": "TransformerLSTM: learning_rate",
     "method": "grid",
     "metric": {
         "goal": "maximize",
@@ -19,7 +19,7 @@ sweep_config = {
     },
     "parameters": {
         "ENV_HPT_mode": {"values": [True]},
-        "architecture": {"values": ["multiLayer_TranLSTM"]},
+        "architecture": {"values": ["TransformerLSTM"]},
         "ENV_LEARNING_RATE":{"values":[0.0007,0.00075,0.000775,0.0008,0.000825,0.00085]}   
     },
     "command": command
