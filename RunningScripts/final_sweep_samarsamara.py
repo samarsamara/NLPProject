@@ -11,7 +11,7 @@ command = [
     ]
 
 sweep_config = {
-    "name": "TransformerLSTM: learning_rate",
+    "name": "TransformerLSTM: seeds",
     "method": "grid",
     "metric": {
         "goal": "maximize",
@@ -20,7 +20,7 @@ sweep_config = {
     "parameters": {
         "ENV_HPT_mode": {"values": [True]},
         "architecture": {"values": ["TransformerLSTM"]},
-        "ENV_LEARNING_RATE":{"values":[0.0007,0.000725,0.00075,0.000775,0.0008,0.000825,0.00085]}   
+        "seed":{"values":[40,42,58,60,72,90,80,70,72,84,120,92,99,98,100,102,104,105,106,108,110,112,114,116,118,126,122,124,128,130,132,134,136,138,140,142,144,146,148,150,152,154,156,158,160,162,164,168,170,172,174]}   
     },
     "command": command
 }
