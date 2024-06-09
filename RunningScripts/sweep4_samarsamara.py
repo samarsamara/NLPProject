@@ -21,7 +21,7 @@ sweep_config = {
         "ENV_HPT_mode": {"values": [True]},
         "architecture": {"values": ["TransformerLSTM"]},
         "transformer_nheads":{"values":[4]},
-        "hidden_dim={"values":[32]}
+        "hidden_dim:{"values":[32]}
     },
     "command": command
 }
