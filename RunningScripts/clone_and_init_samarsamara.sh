@@ -12,4 +12,3 @@ echo "Running the sweep2 script..."
 python sweep2_samarsamara.py
 echo "Running the sweep3 script..."
 python sweep3_samarsamara.py
-cd ..
