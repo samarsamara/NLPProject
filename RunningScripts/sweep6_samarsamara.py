@@ -11,7 +11,7 @@ command = [
     ]
 
 sweep_config = {
-    "name": "TransformerLSTM: optimal learning rate",
+    "name": "StackedTransformerLSTM: optimal learning rate",
     "method": "grid",
     "metric": {
         "goal": "maximize",
@@ -19,8 +19,8 @@ sweep_config = {
     },
     "parameters": {
         "ENV_HPT_mode": {"values": [False]},
-        "architecture": {"values": ["TransformerLSTM"]},
-        "ENV_LEARNING_RATE":{"values":[0.00085]} 
+        "architecture": {"values": ["StackedTransformerLSTM"]},
+        "ENV_LEARNING_RATE":{"values":[0.00075]} 
     },
     "command": command
 }
