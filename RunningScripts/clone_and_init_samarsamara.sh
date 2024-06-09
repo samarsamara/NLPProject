@@ -6,13 +6,10 @@ cd RunningScripts
 echo "Running the final sweep script..."
 python final_sweep_samarsamara.py
 # More runs appear in your report:
-cd RunningScripts
 echo "Running the sweep1 script..."
 python sweep1_samarsamara.py
-cd RunningScripts
 echo "Running the sweep2 script..."
 python sweep2_samarsamara.py
-cd RunningScripts
 echo "Running the sweep3 script..."
 python sweep3_samarsamara.py
 cd ..
