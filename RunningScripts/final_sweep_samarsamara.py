@@ -1,5 +1,5 @@
 import wandb
-YOUR_WANDB_USERNAME = "rwandb"
+YOUR_WANDB_USERNAME = "rwanbd"
 project = "Strategy_Transfer_TACL"
 
 command = [
