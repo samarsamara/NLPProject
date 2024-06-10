@@ -12,3 +12,14 @@ echo "Running the sweep2 script..."
 python sweep2_samarsamara.py
 echo "Running the sweep3 script..."
 python sweep3_samarsamara.py
+echo "Running the sweep4 script..."
+python sweep4_samarsamara.py
+echo "Running the sweep5 script..."
+python sweep5_samarsamara.py
+echo "Running the sweep6 script..."
+python sweep6_samarsamara.py
+echo "Running the sweep7 script..."
+python sweep7_samarsamara.py
+echo "Running the sweep8 script..."
+python sweep8_samarsamara.py
+
