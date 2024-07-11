@@ -61,9 +61,5 @@ pip install jupyter pandas numpy matplotlib
     git clone <https://github.com/samarsamara/NLPProject>
     cd <NLPProjec>
     ```
-2. Launch Jupyter Notebook:
-    ```sh
-    jupyter notebook
-    ```
-3. Open and run the relevant notebooks sequentially.
+
 
