@@ -1,54 +1,71 @@
-# Human Choice Prediction in Language-based Persuasion Games: Simulation-based Off-Policy Evaluation
 
+# Predicting Human Choice in Language-Based Persuasion Games
 
-## Getting Started
+## Authors
+- **Samar Samara**
+  - Technion - Israel Institute of Technology
+  - Email: [samar.s@campus.technion.ac.il](mailto:samar.s@campus.technion.ac.il)
+- **Rawan Badarneh**
+  - Technion - Israel Institute of Technology
+  - Email: [rawanb@campus.technion.ac.il](mailto:rawanb@campus.technion.ac.il)
 
+## Abstract
+Predicting human decisions is crucial for enhancing recommendation systems and boosting user engagement. Traditional models like Transformers and LSTMs have limitations: Transformers struggle with sequential data, while LSTMs may overlook broader contextual information. To address these challenges, we propose a hybrid architecture combining the strengths of both models. Our approach achieves 84.46% accuracy, significantly improving predictive modeling in complex decision-making scenarios.
 
-### Prerequisites
+## Introduction
+The ability to predict human decisions in real-life scenarios is valuable for various applications, including recommendation systems. Existing models such as Transformers and LSTMs have specific limitations. We propose a hybrid model that leverages the sequential processing strengths of LSTMs and the contextual understanding of Transformers.
 
-Before you begin, ensure you have the following tools installed on your system:
-- Git
-- Anaconda or Miniconda
+## Related Works
+Our work builds on the advancements in neural network architectures for time series prediction, particularly the integration of LSTM and Transformer models. Previous research has shown the potential of hybrid models to enhance predictive performance by leveraging the best features of both architectures.
 
-### Installation
+## Model Architectures
+We introduce three neural network architectures:
+1. **LSTM-Transformer Model**: An LSTM processes the sequential data, and its output is passed to a Transformer model.
+2. **Transformer-LSTM Model**: A Transformer processes the input data first, followed by an LSTM layer.
+3. **Stacked Transformer-LSTM Model**: This model alternates between Transformer and LSTM layers to capture both global and local dependencies effectively.
 
-To install and run the code on your local machine, follow these steps:
+## Experiments and Results
+We validated our models using a dataset from (Shapira et al., 2024) involving human decision-making in language-based persuasion games. Our Transformer-LSTM model achieved the highest accuracy of 84.46%.
 
-1. **Clone the repository**
+### Dataset
+We utilized a dataset comprising interactions between human decision-makers and rule-based experts in a language-based persuasion game, including 87,204 decisions made by 245 players.
 
-   First, clone the repository to your local machine using Git. Open a terminal and run the following command:
-   ```bash
-   git clone https://github.com/samarsamara/NLPProject
+### Hyper-Parameter Tuning
+We trained each model with various learning rates, determining the optimal rates for each model to achieve the highest accuracy on the validation set.
+
+### Model Selection
+The Transformer-LSTM model outperformed others, achieving the highest accuracy of 84.46%.
+
+### Results
+After extensive testing, the Transformer-LSTM model demonstrated high reliability, with a 95% confidence interval for accuracy.
+
+## Discussion
+Our results indicate that the Transformer-LSTM model is highly effective in predicting human decisions, outperforming other models and demonstrating consistent performance across different tests.
+
+## Installation
+Before running this project, ensure you have the following software installed:
+- Python 3.x
+- Jupyter Notebook
+- pandas
+- numpy
+- matplotlib
+
+You can install the necessary libraries using pip:
+```sh
+pip install jupyter pandas numpy matplotlib
+```
+
+## How to Run This Project
+1. Clone the repository:
+    ```sh
+    git clone <repository_url>
+    cd <repository_directory>
     ```
-2. **Create and activate the conda environment**
-
-    After cloning the repository, navigate into the project directory:
-
-    ```bash
-    cd NLPProject
+2. Launch Jupyter Notebook:
+    ```sh
+    jupyter notebook
     ```
+3. Open and run the relevant notebooks sequentially.
 
-    Then, use the following command to create a conda environment from the requirements.yml file provided in the project:
-    ```bash
-    conda env create -f requirements.yml
-    ```
-3. **Log in to Weights & Biases (W&B)**
-
-   Weights & Biases is a machine learning platform that helps you track your experiments, visualize data, and share your findings. Logging in to W&B is essential for tracking the experiments in this project. If you haven't already, you'll need to create a W&B account. 
-   Use the following command to log in to your account:
-    ```bash
-    wandb login
-    ```
-
-## Citation
-
-If you find this work useful, please cite our paper:
-
-    @misc{shapira2024human,
-          title={Human Choice Prediction in Language-based Persuasion Games: Simulation-based Off-Policy Evaluation}, 
-          author={Eilam Shapira and Reut Apel and Moshe Tennenholtz and Roi Reichart},
-          year={2024},
-          eprint={2305.10361},
-          archivePrefix={arXiv},
-          primaryClass={cs.LG}
-    }
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
