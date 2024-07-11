@@ -4,10 +4,10 @@
 ## Authors
 - **Samar Samara**
   - Technion - Israel Institute of Technology
-  - Email: [samar.s@campus.technion.ac.il](mailto:samar.s@campus.technion.ac.il)
+  - Email: [s.samar2499@gmail.com](mailto:s.samar2499@gmail.com)
 - **Rawan Badarneh**
   - Technion - Israel Institute of Technology
-  - Email: [rawanb@campus.technion.ac.il](mailto:rawanb@campus.technion.ac.il)
+  - Email: [rwanbadarneh@gmail.com](mailto:rwanbadarneh@gmail.com)
 
 ## Abstract
 Predicting human decisions is crucial for enhancing recommendation systems and boosting user engagement. Traditional models like Transformers and LSTMs have limitations: Transformers struggle with sequential data, while LSTMs may overlook broader contextual information. To address these challenges, we propose a hybrid architecture combining the strengths of both models. Our approach achieves 84.46% accuracy, significantly improving predictive modeling in complex decision-making scenarios.
